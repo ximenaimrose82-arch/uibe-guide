@@ -450,20 +450,24 @@ async function askAI(text) {
     `<div class="msg me">${esc(text)}</div><div class="msg ai thinking">🤔 AI 思考中…</div>`);
   box.scrollTop = box.scrollHeight;
   let d = null;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000); // 8秒超时,防止手机网络挂起
   try {
     const r = await fetch(AI_PROXY_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question: text }),
+      signal: controller.signal,
     });
     d = await r.json();
   } catch (e) { d = null; }
+  finally { clearTimeout(timer); }
   const thinking = box.querySelector('.thinking');
   if (thinking) thinking.remove();
   if (d && d.answer) {
     askText(null, d.answer);
   } else {
-    askText(null, (d && d.error) ? d.error : '网络开小差了，AI 暂时连不上，稍后再试试～');
+    askText(null, 'AI 服务暂时连不上（手机网络限制）。\n\n你可以：\n① 直接问我常见问题（报到、军训、选课、食堂…）\n② 去「📚 攻略库」翻 60 篇攻略\n③ 换个 Wi-Fi 再试 AI');
   }
 }
 
