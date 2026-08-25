@@ -410,8 +410,38 @@ function ask() {
   const text = input.value.trim();
   if (!text) return;
   const found = matchFaq(text);
-  askText(text, found ? found.a : '这个问题我还在学习中～\n\n（正式版将接入 DeepSeek 大模型，任何贸大相关问题都能智能回答）');
+  if (found) {
+    askText(text, found.a);
+  } else {
+    askAI(text); // 本地没答案 → 走 DeepSeek AI
+  }
   input.value = '';
+}
+
+// ===== AI 代理 (Cloudflare Worker → DeepSeek) =====
+const AI_PROXY_URL = 'https://uibe-ai-proxy.ximenaimrose82.workers.dev';
+
+async function askAI(text) {
+  const box = document.getElementById('aiMsgs');
+  box.insertAdjacentHTML('beforeend',
+    `<div class="msg me">${esc(text)}</div><div class="msg ai thinking">🤔 AI 思考中…</div>`);
+  box.scrollTop = box.scrollHeight;
+  let d = null;
+  try {
+    const r = await fetch(AI_PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: text }),
+    });
+    d = await r.json();
+  } catch (e) { d = null; }
+  const thinking = box.querySelector('.thinking');
+  if (thinking) thinking.remove();
+  if (d && d.answer) {
+    askText(null, d.answer);
+  } else {
+    askText(null, (d && d.error) ? d.error : '网络开小差了，AI 暂时连不上，稍后再试试～');
+  }
 }
 
 // 评分式关键词匹配：按命中关键词总长度打分，短问题额外加分
@@ -430,8 +460,10 @@ function matchFaq(text) {
 
 function askText(q, a) {
   const box = document.getElementById('aiMsgs');
-  box.insertAdjacentHTML('beforeend',
-    `<div class="msg me">${esc(q)}</div><div class="msg ai">${esc(a).replace(/\n/g, '<br>')}</div>`);
+  if (q) {
+    box.insertAdjacentHTML('beforeend', `<div class="msg me">${esc(q)}</div>`);
+  }
+  box.insertAdjacentHTML('beforeend', `<div class="msg ai">${esc(a).replace(/\n/g, '<br>')}</div>`);
   box.scrollTop = box.scrollHeight;
 }
 
