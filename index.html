@@ -423,22 +423,25 @@ function ask() {
   input.value = '';
 }
 
-// 攻略库模糊搜索兜底: 用问题子串匹配攻略标题/正文
+// 攻略库模糊搜索兜底: 严格匹配(标题优先), 拿不准就不答, 避免乱答
 function matchGuide(text) {
+  // 去掉常见疑问词, 提取问题核心
+  const qwords = text.replace(/[？?。，,!！在哪里怎么什么是吗有没有哪些哪个哪家多少如何啥为什么可不可以能否]/g, ' ').trim();
+  if (qwords.length < 3) return null;
   const subs = new Set();
-  for (let len = 4; len >= 2; len--) {
-    for (let i = 0; i + len <= text.length; i++) subs.add(text.slice(i, i + len));
+  for (let len = 4; len >= 3; len--) {   // 只用 3-4 字子串, 减少 2 字噪音
+    for (let i = 0; i + len <= qwords.length; i++) subs.add(qwords.slice(i, i + len));
   }
   let best = null, bestScore = 0;
   for (const g of GUIDES) {
-    const hay = g.title + ' ' + g.body;
     let score = 0;
     for (const s of subs) {
-      if (hay.includes(s)) score += s.length;
+      if (g.title.includes(s)) score += s.length * 4;  // 标题命中权重高
+      if (g.body.includes(s)) score += s.length;
     }
     if (score > bestScore) { bestScore = score; best = g; }
   }
-  return bestScore >= 4 ? best : null;
+  return bestScore >= 10 ? best : null;  // 高阈值: 匹配不扎实就不答
 }
 
 // ===== AI 代理 (Cloudflare Worker → DeepSeek) =====
