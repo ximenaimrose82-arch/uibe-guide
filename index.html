@@ -413,9 +413,32 @@ function ask() {
   if (found) {
     askText(text, found.a);
   } else {
-    askAI(text); // 本地没答案 → 走 DeepSeek AI
+    const guide = matchGuide(text);   // 第二层: 本地攻略库兜底(不依赖网络)
+    if (guide) {
+      askText(text, '📚 从攻略里找到相关答案：\n\n《' + guide.title + '》\n' + guide.body + '\n\n（更多细节可在「攻略库」分类里查看）');
+    } else {
+      askAI(text);                     // 第三层: 走 DeepSeek AI
+    }
   }
   input.value = '';
+}
+
+// 攻略库模糊搜索兜底: 用问题子串匹配攻略标题/正文
+function matchGuide(text) {
+  const subs = new Set();
+  for (let len = 4; len >= 2; len--) {
+    for (let i = 0; i + len <= text.length; i++) subs.add(text.slice(i, i + len));
+  }
+  let best = null, bestScore = 0;
+  for (const g of GUIDES) {
+    const hay = g.title + ' ' + g.body;
+    let score = 0;
+    for (const s of subs) {
+      if (hay.includes(s)) score += s.length;
+    }
+    if (score > bestScore) { bestScore = score; best = g; }
+  }
+  return bestScore >= 4 ? best : null;
 }
 
 // ===== AI 代理 (Cloudflare Worker → DeepSeek) =====
