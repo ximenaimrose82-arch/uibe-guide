@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>贸大新生指南 · UIBE Guide</title>
+<script src="data-guides.js"></script>
+<script src="data-faq.js"></script>
+<style>
+  :root {
+    --red: #c8102e;
+    --red-dark: #9e0d25;
+    --red-light: #fdeef0;
+    --bg: #faf6f0;
+    --card: #ffffff;
+    --text: #3a2e2a;
+    --muted: #9a8a7e;
+    --gold: #d4a64a;
+    --green: #4a8c5c;
+    --radius: 16px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 68px;
+  }
+  /* ===== 顶部横幅 ===== */
+  .hero {
+    background: linear-gradient(135deg, var(--red) 0%, #e0364f 60%, #f06a5e 100%);
+    color: #fff;
+    padding: 34px 22px 28px;
+    border-radius: 0 0 26px 26px;
+    box-shadow: 0 6px 20px rgba(200,16,46,.25);
+  }
+  .hero .badge {
+    display: inline-block;
+    background: rgba(255,255,255,.22);
+    border: 1px solid rgba(255,255,255,.35);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  .hero h1 { font-size: 26px; font-weight: 800; letter-spacing: 1px; }
+  .hero p { font-size: 13px; opacity: .9; margin-top: 6px; line-height: 1.6; }
+  .hero .uibe-en { font-size: 11px; opacity: .65; margin-top: 4px; letter-spacing: 2px; }
+  .hero .hero-stats { display: flex; gap: 16px; margin-top: 16px; }
+  .hero .hstat { text-align: center; background: rgba(255,255,255,.15); border-radius: 12px; padding: 8px 14px; min-width: 70px; }
+  .hero .hstat b { display: block; font-size: 18px; }
+  .hero .hstat span { font-size: 10px; opacity: .85; }
+
+  /* ===== 通用容器 ===== */
+  .page { padding: 16px 14px; animation: fadeIn .25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .page-title { font-size: 19px; font-weight: 800; margin: 4px 2px 12px; display: flex; align-items: center; gap: 8px; }
+  .page-title .sub { font-size: 12px; color: var(--muted); font-weight: 400; }
+
+  /* ===== 首页入口卡片 ===== */
+  .entry-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 10px rgba(90,60,40,.06);
+    cursor: pointer;
+    transition: transform .12s, box-shadow .12s;
+    border: 1.5px solid transparent;
+  }
+  .entry-card:active { transform: scale(.97); }
+  .entry-card:hover { border-color: var(--red); box-shadow: 0 4px 16px rgba(200,16,46,.12); }
+  .entry-ico {
+    width: 48px; height: 48px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; flex-shrink: 0;
+    background: var(--red-light);
+  }
+  .entry-card:nth-child(2) .entry-ico { background: #fdf3e3; }
+  .entry-card:nth-child(3) .entry-ico { background: #eaf3ec; }
+  .entry-card:nth-child(4) .entry-ico { background: #eef0f8; }
+  .entry-name { font-size: 15px; font-weight: 700; }
+  .entry-desc { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .entry-arrow { margin-left: auto; color: #d8ccc0; font-size: 18px; }
+
+  /* ===== 报到清单 ===== */
+  .check-group {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 10px rgba(90,60,40,.06);
+  }
+  .check-group h3 { font-size: 14px; margin-bottom: 8px; color: var(--red-dark); }
+  .check-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 6px; border-radius: 10px;
+    cursor: pointer; font-size: 14px;
+  }
+  .check-item:active { background: #faf3f0; }
+  .check-box {
+    width: 20px; height: 20px; border-radius: 7px;
+    border: 2px solid #d8ccc0; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: #fff;
+    transition: all .15s;
+  }
+  .check-item.done .check-box { background: var(--red); border-color: var(--red); }
+  .check-item.done .check-label { color: var(--muted); text-decoration: line-through; }
+  .progress-wrap {
+    background: var(--card); border-radius: var(--radius);
+    padding: 14px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(90,60,40,.06);
+  }
+  .progress-text { font-size: 13px; display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .progress-bar {
+    height: 10px; background: #f0e8dd; border-radius: 10px; overflow: hidden;
+  }
+  .progress-bar i {
+    display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--red), #f06a5e);
+    border-radius: 10px; transition: width .4s ease;
+  }
+
+  /* ===== 攻略库 ===== */
+  .search-box {
+    display: flex; gap: 8px; margin-bottom: 12px;
+  }
+  .search-box input {
+    flex: 1; border: 1.5px solid #eee3d6; border-radius: 20px;
+    padding: 9px 14px; font-size: 13px; outline: none; background: #fff;
+  }
+  .search-box input:focus { border-color: var(--red); }
+  .search-box button {
+    border: none; background: var(--red); color: #fff;
+    border-radius: 20px; padding: 0 16px; font-size: 13px; cursor: pointer;
+  }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 6px; }
+  .chip {
+    flex-shrink: 0; font-size: 13px; padding: 6px 14px;
+    border-radius: 20px; background: #fff; color: var(--muted);
+    cursor: pointer; border: 1.5px solid #eee3d6;
+  }
+  .chip.on { background: var(--red); color: #fff; border-color: var(--red); }
+  .guide-card {
+    background: var(--card); border-radius: var(--radius);
+    margin-bottom: 10px; box-shadow: 0 2px 10px rgba(90,60,40,.06);
+    overflow: hidden;
+  }
+  .guide-head {
+    padding: 14px 16px; display: flex; align-items: center; gap: 10px;
+    cursor: pointer; font-size: 14px; font-weight: 600;
+  }
+  .guide-head .tag {
+    font-size: 10px; padding: 2px 8px; border-radius: 10px;
+    background: var(--red-light); color: var(--red); flex-shrink: 0; font-weight: 600;
+  }
+  .guide-head .arr { margin-left: auto; color: #d8ccc0; transition: transform .2s; }
+  .guide-card.open .guide-head .arr { transform: rotate(90deg); }
+  .guide-body {
+    max-height: 0; overflow: hidden; transition: max-height .35s ease;
+    padding: 0 16px; color: #6a5a50; font-size: 13px; line-height: 1.85;
+    white-space: pre-line;
+  }
+  .guide-card.open .guide-body { max-height: 800px; padding: 0 16px 14px; }
+
+  /* ===== AI 百事通 ===== */
+  .ai-box {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: 0 2px 10px rgba(90,60,40,.06);
+    display: flex; flex-direction: column;
+    height: calc(100vh - 220px); min-height: 380px;
+  }
+  .ai-head {
+    padding: 12px 16px; border-bottom: 1px solid #f5ece2;
+    display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+  }
+  .ai-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: blink 1.2s infinite; }
+  @keyframes blink { 50% { opacity: .3; } }
+  .ai-msgs { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .msg { max-width: 88%; padding: 10px 13px; border-radius: 14px; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+  .msg.ai { background: #f6efe6; align-self: flex-start; border-bottom-left-radius: 4px; }
+  .msg.me { background: var(--red); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .ai-sug {
+    display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 14px;
+    border-top: 1px solid #f5ece2; max-height: 110px; overflow-y: auto;
+  }
+  .sug-chip {
+    font-size: 12px; padding: 6px 12px; border-radius: 16px;
+    background: var(--red-light); color: var(--red); cursor: pointer;
+    border: none;
+  }
+  .sug-chip:active { transform: scale(.95); }
+  .ai-input {
+    display: flex; gap: 8px; padding: 10px 14px 14px;
+    border-top: 1px solid #f5ece2;
+  }
+  .ai-input input {
+    flex: 1; border: 1.5px solid #eee3d6; border-radius: 20px;
+    padding: 9px 14px; font-size: 13px; outline: none; background: #fdfaf6;
+  }
+  .ai-input input:focus { border-color: var(--red); }
+  .ai-input button {
+    border: none; background: var(--red); color: #fff;
+    border-radius: 20px; padding: 0 18px; font-size: 13px; cursor: pointer;
+  }
+  .ai-input button:active { transform: scale(.95); }
+
+  /* ===== 底部导航 ===== */
+  .tabbar {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 480px;
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid #f0e8dd;
+    display: flex; padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+    z-index: 100;
+  }
+  .tab {
+    flex: 1; text-align: center; cursor: pointer;
+    color: var(--muted); font-size: 11px; padding: 4px 0;
+    transition: color .15s;
+  }
+  .tab .t-ico { font-size: 20px; display: block; margin-bottom: 2px; }
+  .tab.on { color: var(--red); font-weight: 700; }
+  .back-btn {
+    border: none; background: var(--red-light); color: var(--red);
+    font-size: 12px; padding: 6px 12px; border-radius: 12px; cursor: pointer;
+    margin: 0 2px 12px; font-weight: 600;
+  }
+  .muted-tip { font-size: 11px; color: var(--muted); text-align: center; margin-top: 18px; line-height: 1.7; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<nav class="tabbar" id="tabbar"></nav>
+
+<script>
+// ================= 状态 =================
+const store = {
+  get checklist() { return JSON.parse(localStorage.getItem('uibe_check') || '[]'); },
+  set checklist(v) { localStorage.setItem('uibe_check', JSON.stringify(v)); },
+};
+let route = ['home'];
+
+// ================= 清单数据（更完整版） =================
+const CHECKLIST = [
+  { group: "📦 材料准备", items: ["录取通知书", "准考证", "身份证原件及复印件", "一寸/二寸证件照 8 张", "学生档案（勿拆封）", "党团组织关系材料", "兵役登记证明（年满18岁男生）"] },
+  { group: "💻 网上事项", items: ["完成网上预报到", "缴纳学杂费", "完成安全微课", "英语分级测试", "办理建行龙卡", "「六个一」假期任务"] },
+  { group: "🏠 宿舍入住", items: ["签住宿协议", "领取钥匙和空调遥控器", "办理空调租赁", "认识室友+建宿舍群", "购买生活用品"] },
+  { group: "🎓 开学注册", items: ["身份核验（宁远楼）", "学院报到（诚信楼）", "领取E卡等物资", "入学体检", "参加开学典礼"] },
+];
+
+// ================= 工具 =================
+const $app = document.getElementById('app');
+const $tabbar = document.getElementById('tabbar');
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function go(h) { location.hash = h; }
+function parseRoute() {
+  const h = (location.hash || '#/home').replace(/^#/, '').split('?')[0];
+  return h.split('/').filter(Boolean).map(s => { try { return decodeURIComponent(s); } catch(e) { return s; } });
+}
+
+// ================= 页面渲染 =================
+function renderHome() {
+  const entries = [
+    { ico: "✅", name: "报到清单", desc: "20+ 项逐条打勾，进度一目了然", to: "#/check" },
+    { ico: "📚", name: "攻略库", desc: `${GUIDES.length} 篇攻略，覆盖开学全场景`, to: "#/guides" },
+    { ico: "🤖", name: "AI 百事通", desc: `${FAQ.length} 条常见问答，秒答`, to: "#/ai" },
+    { ico: "🛡️", name: "防骗手册", desc: "开学季 5 大骗局全拆解", to: "#/guides?cat=防骗" },
+  ];
+  const done = store.checklist.length;
+  const all = CHECKLIST.flatMap(g => g.items).length;
+  $app.innerHTML = `
+    <div class="hero">
+      <span class="badge">UIBE · 2026 新生版</span>
+      <h1>贸大新生指南</h1>
+      <p>报到 · 军训 · 选课 · 生活 · 防骗<br>一页读懂你的开学季</p>
+      <div class="hero-stats">
+        <div class="hstat"><b>${GUIDES.length}</b><span>篇攻略</span></div>
+        <div class="hstat"><b>${FAQ.length}</b><span>条问答</span></div>
+        <div class="hstat"><b>${done}/${all}</b><span>清单进度</span></div>
+      </div>
+      <div class="uibe-en">UNIVERSITY OF INTERNATIONAL BUSINESS AND ECONOMICS</div>
+    </div>
+    <div class="page">
+      <div class="page-title">🏠 开始探索</div>
+      ${entries.map(e => `
+        <div class="entry-card" onclick="go('${e.to}')">
+          <div class="entry-ico">${e.ico}</div>
+          <div><div class="entry-name">${e.name}</div><div class="entry-desc">${e.desc}</div></div>
+          <span class="entry-arrow">›</span>
+        </div>`).join('')}
+      <div class="muted-tip">信息来源：2026级新生入学指南（官方）+ 贸大官网 + 学长学姐经验<br>关键信息以学校正式通知为准</div>
+    </div>`;
+}
+
+function renderCheck() {
+  const done = store.checklist;
+  const all = CHECKLIST.flatMap(g => g.items);
+  const pct = Math.round(done.length / all.length * 100);
+  $app.innerHTML = `
+    <div class="page">
+      <button class="back-btn" onclick="go('#/home')">← 返回</button>
+      <div class="page-title">✅ 报到清单 <span class="sub">完成 ${done.length}/${all.length}</span></div>
+      <div class="progress-wrap">
+        <div class="progress-text"><span>开学准备进度</span><b>${pct}%</b></div>
+        <div class="progress-bar"><i style="width:${pct}%"></i></div>
+        ${pct === 100 ? '<div style="text-align:center;margin-top:8px;font-size:13px;color:var(--green)">🎉 全部搞定，安心开学！</div>' : ''}
+      </div>
+      ${CHECKLIST.map(g => `
+        <div class="check-group">
+          <h3>${g.group}</h3>
+          ${g.items.map(it => {
+            const key = g.group + '|' + it;
+            const isDone = done.includes(key);
+            return `<div class="check-item${isDone ? ' done' : ''}" onclick="toggleCheck('${esc(key)}')">
+              <span class="check-box">${isDone ? '✓' : ''}</span>
+              <span class="check-label">${it}</span>
+            </div>`;
+          }).join('')}
+        </div>`).join('')}
+    </div>`;
+}
+
+let guideSearch = '';
+function renderGuides(cat, kw) {
+  const searchKw = (kw !== undefined ? kw : guideSearch).trim();
+  let list = GUIDES;
+  if (cat && cat !== '全部') list = list.filter(g => g.cat === cat);
+  if (searchKw) list = list.filter(g => (g.title + g.body).includes(searchKw));
+  const cats = ['全部', ...new Set(GUIDES.map(g => g.cat))];
+  $app.innerHTML = `
+    <div class="page">
+      <button class="back-btn" onclick="go('#/home')">← 返回</button>
+      <div class="page-title">📚 攻略库 <span class="sub">${GUIDES.length} 篇</span></div>
+      <div class="search-box">
+        <input id="gSearch" placeholder="🔍 搜攻略，如：军训、食堂、选课" value="${esc(searchKw)}" onkeydown="if(event.key==='Enter')doSearch()">
+        <button onclick="doSearch()">搜索</button>
+      </div>
+      <div class="chips">
+        ${cats.map(c => `<span class="chip${c === (cat || '全部') ? ' on' : ''}" onclick="guideSearch='';go('#/guides?cat=${encodeURIComponent(c)}')">${c}</span>`).join('')}
+      </div>
+      ${list.map((g, i) => `
+        <div class="guide-card" id="gc${i}">
+          <div class="guide-head" onclick="toggleGuide(${i})">
+            <span>${g.icon}</span> ${g.title}
+            <span class="tag">${g.cat}</span>
+            <span class="arr">›</span>
+          </div>
+          <div class="guide-body">${esc(g.body)}</div>
+        </div>`).join('')}
+      ${list.length === 0 ? '<div class="muted-tip">没有找到相关攻略，换个关键词试试～</div>' : ''}
+    </div>`;
+}
+
+function doSearch() {
+  const v = document.getElementById('gSearch').value;
+  guideSearch = v;
+  renderGuides(route[1] && route[1] !== '全部' ? route[1] : '全部', v);
+}
+
+function renderAi() {
+  $app.innerHTML = `
+    <div class="page" style="padding-bottom:0">
+      <button class="back-btn" onclick="go('#/home')">← 返回</button>
+      <div class="page-title">🤖 AI 百事通 <span class="sub">本地 ${FAQ.length} 条问答</span></div>
+      <div class="ai-box">
+        <div class="ai-head"><span class="ai-dot"></span> 贸大百事通 · 在线</div>
+        <div class="ai-msgs" id="aiMsgs">
+          <div class="msg ai">你好呀！我是贸大百事通 👋<br>报到、军训、选课、生活、防骗……<br>关于贸大的问题都可以问我～</div>
+        </div>
+        <div class="ai-sug" id="aiSug"></div>
+        <div class="ai-input">
+          <input id="aiInput" placeholder="输入问题，如：军训多久？" onkeydown="if(event.key==='Enter')ask()">
+          <button onclick="ask()">发送</button>
+        </div>
+      </div>
+    </div>`;
+  const sugs = FAQ.slice(0, 12);
+  document.getElementById('aiSug').innerHTML = sugs.map((f, i) =>
+    `<button class="sug-chip" onclick="askByIndex(${i})">${f.q}</button>`).join('');
+}
+
+// ================= 交互 =================
+function toggleCheck(key) {
+  const done = store.checklist;
+  const i = done.indexOf(key);
+  if (i >= 0) done.splice(i, 1); else done.push(key);
+  store.checklist = done;
+  renderCheck();
+}
+
+function toggleGuide(i) {
+  const el = document.getElementById('gc' + i);
+  el.classList.toggle('open');
+}
+
+function askByIndex(i) { askText(FAQ[i].q, FAQ[i].a); }
+
+function ask() {
+  const input = document.getElementById('aiInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const found = matchFaq(text);
+  askText(text, found ? found.a : '这个问题我还在学习中～\n\n（正式版将接入 DeepSeek 大模型，任何贸大相关问题都能智能回答）');
+  input.value = '';
+}
+
+// 评分式关键词匹配：按命中关键词总长度打分，短问题额外加分
+function matchFaq(text) {
+  let best = null, bestScore = 0;
+  for (const f of FAQ) {
+    let score = 0;
+    for (const k of f.kws) {
+      if (text.includes(k)) score += k.length * 2;
+    }
+    if (text.length <= 8) score += 1; // 短问题(可能是泛问)略加分,提高命中率
+    if (score > bestScore) { bestScore = score; best = f; }
+  }
+  return bestScore > 0 ? best : null;
+}
+
+function askText(q, a) {
+  const box = document.getElementById('aiMsgs');
+  box.insertAdjacentHTML('beforeend',
+    `<div class="msg me">${esc(q)}</div><div class="msg ai">${esc(a).replace(/\n/g, '<br>')}</div>`);
+  box.scrollTop = box.scrollHeight;
+}
+
+// ================= 路由 =================
+function render() {
+  route = parseRoute();
+  const top = route[0] || 'home';
+  const q = (location.hash.split('?')[1] || '');
+  const params = new URLSearchParams(q);
+  if (top === 'home') renderHome();
+  else if (top === 'check') renderCheck();
+  else if (top === 'guides') renderGuides(params.get('cat') || '全部');
+  else if (top === 'ai') renderAi();
+  else renderHome();
+  const tabs = [
+    { r: 'home', ico: '🏠', name: '首页' },
+    { r: 'check', ico: '✅', name: '清单' },
+    { r: 'guides', ico: '📚', name: '攻略' },
+    { r: 'ai', ico: '🤖', name: 'AI' },
+  ];
+  $tabbar.innerHTML = tabs.map(t =>
+    `<div class="tab${top === t.r ? ' on' : ''}" onclick="go('#/${t.r}')">
+      <span class="t-ico">${t.ico}</span>${t.name}
+    </div>`).join('');
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', render);
+render();
+</script>
+</body>
+</html>
