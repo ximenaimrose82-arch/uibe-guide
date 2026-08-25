@@ -452,10 +452,11 @@ function matchFaq(text) {
     for (const k of f.kws) {
       if (text.includes(k)) score += k.length * 2;
     }
+    if (score === 0) continue; // 无任何关键词命中 → 直接跳过
     if (text.length <= 8) score += 1; // 短问题(可能是泛问)略加分,提高命中率
     if (score > bestScore) { bestScore = score; best = f; }
   }
-  return bestScore > 0 ? best : null;
+  return best;
 }
 
 function askText(q, a) {
