@@ -261,6 +261,7 @@ const CHECKLIST = [
 // ================= 工具 =================
 const $app = document.getElementById('app');
 const $tabbar = document.getElementById('tabbar');
+const APP_VERSION = 'v6'; // 页面版本号: 判断手机是否拿到新版
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function go(h) { location.hash = h; }
 function parseRoute() {
@@ -280,7 +281,7 @@ function renderHome() {
   const all = CHECKLIST.flatMap(g => g.items).length;
   $app.innerHTML = `
     <div class="hero">
-      <span class="badge">UIBE · 2026 新生版</span>
+      <span class="badge">UIBE · 2026 新生版 ${APP_VERSION}</span>
       <h1>贸大新生指南</h1>
       <p>报到 · 军训 · 选课 · 生活 · 防骗<br>一页读懂你的开学季</p>
       <div class="hero-stats">
@@ -371,7 +372,7 @@ function renderAi() {
   $app.innerHTML = `
     <div class="page" style="padding-bottom:0">
       <button class="back-btn" onclick="go('#/home')">← 返回</button>
-      <div class="page-title">🤖 AI 百事通 <span class="sub">本地 ${FAQ.length} 条问答</span></div>
+      <div class="page-title">🤖 AI 百事通 <span class="sub">本地 ${FAQ.length} 条问答 · ${APP_VERSION}</span></div>
       <div class="ai-box">
         <div class="ai-head"><span class="ai-dot"></span> 贸大百事通 · 在线</div>
         <div class="ai-msgs" id="aiMsgs">
