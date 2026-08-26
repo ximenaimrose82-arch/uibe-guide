@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>贸大新生指南 · UIBE Guide</title>
+<meta name="description" content="对外经济贸易大学2026级新生入学指南：报到流程、军训攻略、选课技巧、宿舍食堂、防骗手册，还有AI百事通智能问答，手机点开即用。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E">
+<!-- 微信/QQ/浏览器分享卡片 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="贸大新生指南 · UIBE Guide">
+<meta property="og:description" content="2026级新生入学指南：报到/军训/选课/生活/防骗 + AI百事通，手机点开即用">
+<meta property="og:url" content="https://ximenaimrose82-arch.github.io/uibe-guide/">
+<meta property="og:image" content="https://ximenaimrose82-arch.github.io/uibe-guide/share.png">
 <script src="data-guides.js"></script>
 <script src="data-faq.js"></script>
 <style>
@@ -61,6 +69,12 @@
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   .page-title { font-size: 19px; font-weight: 800; margin: 4px 2px 12px; display: flex; align-items: center; gap: 8px; }
   .page-title .sub { font-size: 12px; color: var(--muted); font-weight: 400; }
+  .clear-btn {
+    margin-left: auto; border: none; background: transparent;
+    font-size: 12px; color: var(--muted); cursor: pointer; padding: 4px 8px;
+    border-radius: 10px;
+  }
+  .clear-btn:active { background: var(--red-light); }
 
   /* ===== 首页入口卡片 ===== */
   .entry-card {
@@ -261,7 +275,12 @@ const CHECKLIST = [
 // ================= 工具 =================
 const $app = document.getElementById('app');
 const $tabbar = document.getElementById('tabbar');
-const APP_VERSION = 'v6'; // 页面版本号: 判断手机是否拿到新版
+const APP_VERSION = 'v7'; // 页面版本号: 判断手机是否拿到新版
+// 聊天记录持久化(切换页面不丢失)
+const chatStore = {
+  get msgs() { try { return JSON.parse(localStorage.getItem('uibe_chat') || '[]'); } catch (e) { return []; } },
+  set msgs(v) { localStorage.setItem('uibe_chat', JSON.stringify(v)); },
+};
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function go(h) { location.hash = h; }
 function parseRoute() {
@@ -272,7 +291,7 @@ function parseRoute() {
 // ================= 页面渲染 =================
 function renderHome() {
   const entries = [
-    { ico: "✅", name: "报到清单", desc: "20+ 项逐条打勾，进度一目了然", to: "#/check" },
+    { ico: "✅", name: "报到清单", desc: `${CHECKLIST.flatMap(g => g.items).length} 项逐条打勾，进度一目了然`, to: "#/check" },
     { ico: "📚", name: "攻略库", desc: `${GUIDES.length} 篇攻略，覆盖开学全场景`, to: "#/guides" },
     { ico: "🤖", name: "AI 百事通", desc: `${FAQ.length} 条常见问答，秒答`, to: "#/ai" },
     { ico: "🛡️", name: "防骗手册", desc: "开学季 5 大骗局全拆解", to: "#/guides?cat=防骗" },
@@ -343,7 +362,7 @@ function renderGuides(cat, kw) {
       <button class="back-btn" onclick="go('#/home')">← 返回</button>
       <div class="page-title">📚 攻略库 <span class="sub">${GUIDES.length} 篇</span></div>
       <div class="search-box">
-        <input id="gSearch" placeholder="🔍 搜攻略，如：军训、食堂、选课" value="${esc(searchKw)}" onkeydown="if(event.key==='Enter')doSearch()">
+        <input id="gSearch" placeholder="🔍 搜攻略，如：军训、食堂、选课" value="${esc(searchKw)}" onkeydown="if(event.key==='Enter'&&!event.isComposing)doSearch()">
         <button onclick="doSearch()">搜索</button>
       </div>
       <div class="chips">
@@ -369,18 +388,22 @@ function doSearch() {
 }
 
 function renderAi() {
+  const hist = chatStore.msgs;
   $app.innerHTML = `
     <div class="page" style="padding-bottom:0">
       <button class="back-btn" onclick="go('#/home')">← 返回</button>
-      <div class="page-title">🤖 AI 百事通 <span class="sub">本地 ${FAQ.length} 条问答 · ${APP_VERSION}</span></div>
+      <div class="page-title">🤖 AI 百事通 <span class="sub">本地 ${FAQ.length} 条问答 · ${APP_VERSION}</span>
+        <button class="clear-btn" onclick="clearChat()" title="清空聊天记录">🗑️ 清空</button>
+      </div>
       <div class="ai-box">
         <div class="ai-head"><span class="ai-dot"></span> 贸大百事通 · 在线</div>
         <div class="ai-msgs" id="aiMsgs">
           <div class="msg ai">你好呀！我是贸大百事通 👋<br>报到、军训、选课、生活、防骗……<br>关于贸大的问题都可以问我～</div>
+          ${hist.map(m => `<div class="msg ${m.role}">${esc(m.text).replace(/\n/g, '<br>')}</div>`).join('')}
         </div>
         <div class="ai-sug" id="aiSug"></div>
         <div class="ai-input">
-          <input id="aiInput" placeholder="输入问题，如：军训多久？" onkeydown="if(event.key==='Enter')ask()">
+          <input id="aiInput" placeholder="输入问题，如：军训多久？" onkeydown="if(event.key==='Enter'&&!event.isComposing)ask()">
           <button onclick="ask()">发送</button>
         </div>
       </div>
@@ -388,6 +411,15 @@ function renderAi() {
   const sugs = FAQ.slice(0, 12);
   document.getElementById('aiSug').innerHTML = sugs.map((f, i) =>
     `<button class="sug-chip" onclick="askByIndex(${i})">${f.q}</button>`).join('');
+  const box = document.getElementById('aiMsgs');
+  box.scrollTop = box.scrollHeight;
+}
+
+function clearChat() {
+  if (confirm('确定清空所有聊天记录吗？')) {
+    chatStore.msgs = [];
+    renderAi();
+  }
 }
 
 // ================= 交互 =================
@@ -470,8 +502,10 @@ async function askAI(text) {
   if (thinking) thinking.remove();
   if (d && d.answer) {
     askText(null, d.answer);
+  } else if (d && d.error) {
+    askText(null, d.error); // 显示服务器业务错误(如限流提示)
   } else {
-    askText(null, 'AI 服务暂时连不上（手机网络限制）。\n\n你可以：\n① 直接问我常见问题（报到、军训、选课、食堂…）\n② 去「📚 攻略库」翻 60 篇攻略\n③ 换个 Wi-Fi 再试 AI');
+    askText(null, `AI 服务暂时连不上（手机网络限制）。\n\n你可以：\n① 直接问我常见问题（报到、军训、选课、食堂…）\n② 去「📚 攻略库」翻 ${GUIDES.length} 篇攻略\n③ 换个 Wi-Fi 再试 AI`);
   }
 }
 
@@ -494,8 +528,10 @@ function askText(q, a) {
   const box = document.getElementById('aiMsgs');
   if (q) {
     box.insertAdjacentHTML('beforeend', `<div class="msg me">${esc(q)}</div>`);
+    chatStore.msgs = [...chatStore.msgs, { role: 'me', text: q }];
   }
   box.insertAdjacentHTML('beforeend', `<div class="msg ai">${esc(a).replace(/\n/g, '<br>')}</div>`);
+  chatStore.msgs = [...chatStore.msgs, { role: 'ai', text: a }];
   box.scrollTop = box.scrollHeight;
 }
 
