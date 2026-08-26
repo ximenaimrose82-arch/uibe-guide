@@ -12,8 +12,8 @@
 <meta property="og:description" content="2026级新生入学指南：报到/军训/选课/生活/防骗 + AI百事通，手机点开即用">
 <meta property="og:url" content="https://ximenaimrose82-arch.github.io/uibe-guide/">
 <meta property="og:image" content="https://ximenaimrose82-arch.github.io/uibe-guide/share.png">
-<script src="data-guides.js"></script>
-<script src="data-faq.js"></script>
+<script src="data-guides.js?v=8"></script>
+<script src="data-faq.js?v=8"></script>
 <style>
   :root {
     --red: #c8102e;
@@ -275,7 +275,7 @@ const CHECKLIST = [
 // ================= 工具 =================
 const $app = document.getElementById('app');
 const $tabbar = document.getElementById('tabbar');
-const APP_VERSION = 'v7'; // 页面版本号: 判断手机是否拿到新版
+const APP_VERSION = 'v8'; // 页面版本号: 判断手机是否拿到新版
 // 聊天记录持久化(切换页面不丢失)
 const chatStore = {
   get msgs() { try { return JSON.parse(localStorage.getItem('uibe_chat') || '[]'); } catch (e) { return []; } },
