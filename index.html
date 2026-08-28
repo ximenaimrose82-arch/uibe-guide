@@ -12,8 +12,8 @@
 <meta property="og:description" content="2026级新生入学指南：报到/军训/选课/生活/防骗 + AI百事通，手机点开即用">
 <meta property="og:url" content="https://ximenaimrose82-arch.github.io/uibe-guide/">
 <meta property="og:image" content="https://ximenaimrose82-arch.github.io/uibe-guide/share.png">
-<script src="data-guides.js?v=8"></script>
-<script src="data-faq.js?v=8"></script>
+<script src="data-guides.js?v=9"></script>
+<script src="data-faq.js?v=9"></script>
 <style>
   :root {
     --red: #c8102e;
@@ -275,7 +275,7 @@ const CHECKLIST = [
 // ================= 工具 =================
 const $app = document.getElementById('app');
 const $tabbar = document.getElementById('tabbar');
-const APP_VERSION = 'v8'; // 页面版本号: 判断手机是否拿到新版
+const APP_VERSION = 'v9'; // 页面版本号: 判断手机是否拿到新版
 // 聊天记录持久化(切换页面不丢失)
 const chatStore = {
   get msgs() { try { return JSON.parse(localStorage.getItem('uibe_chat') || '[]'); } catch (e) { return []; } },
@@ -477,8 +477,12 @@ function matchGuide(text) {
   return bestScore >= 10 ? best : null;  // 高阈值: 匹配不扎实就不答
 }
 
-// ===== AI 代理 (Cloudflare Worker → DeepSeek) =====
-const AI_PROXY_URL = 'https://uibe-ai-proxy.ximenaimrose82.workers.dev';
+// ===== AI 代理: 双通道自动切换 =====
+// ① 腾讯云函数(国内, 手机秒连) ② Cloudflare Worker(备用)
+const AI_PROXY_URLS = [
+  'https://1476579079-52r3nccknz.ap-guangzhou.tencentscf.com',  // 腾讯云 SCF(国内直连)
+  'https://uibe-ai-proxy.ximenaimrose82.workers.dev',  // Cloudflare Worker(备用)
+];
 
 async function askAI(text) {
   const box = document.getElementById('aiMsgs');
@@ -486,18 +490,23 @@ async function askAI(text) {
     `<div class="msg me">${esc(text)}</div><div class="msg ai thinking">🤔 AI 思考中…</div>`);
   box.scrollTop = box.scrollHeight;
   let d = null;
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000); // 8秒超时,防止手机网络挂起
-  try {
-    const r = await fetch(AI_PROXY_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: text }),
-      signal: controller.signal,
-    });
-    d = await r.json();
-  } catch (e) { d = null; }
-  finally { clearTimeout(timer); }
+  // 依次尝试各通道, 第一个能用的就用它
+  for (const url of AI_PROXY_URLS) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000); // 每通道8秒超时
+    try {
+      const r = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: text }),
+        signal: controller.signal,
+      });
+      d = await r.json();
+    } catch (e) { d = null; }
+    finally { clearTimeout(timer); }
+    if (d && d.answer) break;              // 拿到答案, 停止尝试
+    if (d && d.error && (d.error.includes('上限') || d.error.includes('频繁'))) break; // 熔断/限流, 不降级
+  }
   const thinking = box.querySelector('.thinking');
   if (thinking) thinking.remove();
   if (d && d.answer) {
