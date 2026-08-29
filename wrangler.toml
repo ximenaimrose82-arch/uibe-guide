@@ -1,0 +1,8 @@
+# Cloudflare Worker 配置
+name = "uibe-ai-proxy"
+main = "worker.js"
+compatibility_date = "2026-08-01"
+
+# 默认模型(可被环境变量覆盖)
+[vars]
+MODEL = "deepseek-chat"

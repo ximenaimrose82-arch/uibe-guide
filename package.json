@@ -1,0 +1,15 @@
+{
+  "name": "uibe-guide",
+  "version": "1.0.0",
+  "private": true,
+  "description": "贸大新生指南 · UIBE Guide 2026（报到清单 / 攻略库 / AI 百事通）",
+  "scripts": {
+    "preview": "node scripts/serve.mjs",
+    "icons": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/gen-icons.ps1",
+    "check": "node --check data-guides.js && node --check data-faq.js && node --check worker.js && node --check sw.js && node --check scripts/serve.mjs && node tools/smoke.mjs",
+    "deploy:worker": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.125.0"
+  }
+}

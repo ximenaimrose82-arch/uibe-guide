@@ -1,0 +1,16 @@
+{
+  "name": "贸大新生指南 · UIBE Guide",
+  "short_name": "贸大新生指南",
+  "description": "对外经济贸易大学2026级新生入学指南：报到清单、攻略库、AI百事通、防骗手册",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#faf6f0",
+  "theme_color": "#c8102e",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
