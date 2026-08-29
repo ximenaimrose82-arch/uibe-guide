@@ -57,8 +57,9 @@
   ]
 }
 </script>
-<script src="data-guides.js?v=10"></script>
-<script src="data-faq.js?v=10"></script>
+<script src="data-guides.js?v=11"></script>
+<script src="data-faq.js?v=11"></script>
+<script src="data-contacts.js?v=11"></script>
 <style>
   :root {
     --red: #c8102e;
@@ -337,6 +338,77 @@
   }
   .muted-tip { font-size: 11px; color: var(--muted); text-align: center; margin-top: 18px; line-height: 1.7; }
 
+  /* ===== 校园地图 ===== */
+  .map-card {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: 0 2px 10px rgba(90,60,40,.06);
+    margin-bottom: 12px; overflow: hidden;
+  }
+  .map-card .map-img-wrap { position: relative; cursor: zoom-in; }
+  .map-card img.map-img {
+    display: block; width: 100%; height: auto; border-radius: var(--radius);
+  }
+  .map-card .map-zoom-hint {
+    position: absolute; right: 10px; top: 10px;
+    background: rgba(0,0,0,.55); color: #fff; font-size: 11px;
+    padding: 4px 10px; border-radius: 14px; pointer-events: none;
+  }
+  .map-card .map-cap { padding: 12px 14px; font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .landmarks { padding: 0 14px 14px; }
+  .landmarks h4 { font-size: 13px; color: var(--red-dark); margin: 10px 0 6px; }
+  .landmark-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .landmark-chip {
+    font-size: 12px; padding: 4px 10px; border-radius: 14px;
+    background: var(--red-light); color: var(--red); border: none;
+  }
+  .landmark-chip.mute { background: #f6f1ea; color: var(--muted); }
+
+  /* ===== 地图 Lightbox ===== */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 300;
+    background: rgba(0,0,0,.92);
+    display: none; flex-direction: column;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px; color: #fff; font-size: 13px; flex-shrink: 0;
+  }
+  .lightbox-close {
+    border: none; background: rgba(255,255,255,.15); color: #fff;
+    width: 32px; height: 32px; border-radius: 50%; font-size: 16px;
+    cursor: pointer; flex-shrink: 0;
+  }
+  .lightbox-body {
+    flex: 1; overflow: auto; -webkit-overflow-scrolling: touch;
+    display: flex; align-items: flex-start; justify-content: center;
+    overscroll-behavior: contain;
+  }
+  .lightbox-body img {
+    max-width: none; width: auto; height: auto;
+    transform-origin: top left;
+  }
+  .lightbox-foot { color: rgba(255,255,255,.7); font-size: 11px; text-align: center; padding: 8px; flex-shrink: 0; }
+  .lightbox-foot a { color: #fff; }
+
+  /* ===== 院系联系方式 ===== */
+  .contact-card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 14px 16px; margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(90,60,40,.06);
+  }
+  .contact-card h3 { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+  .contact-card .c-rows { margin-top: 8px; font-size: 13px; line-height: 1.9; }
+  .contact-card .c-row { display: flex; gap: 8px; }
+  .contact-card .c-label { color: var(--muted); flex-shrink: 0; width: 42px; }
+  .contact-card .c-val { color: var(--text); word-break: break-all; }
+  .contact-card .c-val a { color: var(--red); text-decoration: none; font-weight: 600; }
+  .contact-card .c-val a:active { opacity: .7; }
+  .contact-card .c-val .pending { color: var(--muted); }
+  .contact-card .c-src { margin-top: 8px; font-size: 11px; color: var(--muted); }
+  .contact-card .c-src a { color: var(--muted); text-decoration: underline; }
+  .contact-card mark { background: #ffe9a8; border-radius: 3px; padding: 0 1px; }
+
   /* ===== Toast 提示 ===== */
   #toast {
     position: fixed; bottom: 84px; left: 50%; transform: translate(-50%, 12px);
@@ -355,6 +427,16 @@
 <div id="app"></div>
 <nav class="tabbar" id="tabbar" aria-label="主导航"></nav>
 <div id="toast" role="status" aria-live="polite"></div>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="校园地图大图">
+  <div class="lightbox-head">
+    <span>校园地图 · 双指缩放 / 拖动查看</span>
+    <button type="button" class="lightbox-close" onclick="closeLightbox()" aria-label="关闭大图">✕</button>
+  </div>
+  <div class="lightbox-body" onclick="if(event.target===this)closeLightbox()">
+    <img src="assets/uibe-campus-map.jpg" alt="对外经济贸易大学校园地图（大图）">
+  </div>
+  <div class="lightbox-foot">来源：<a href="https://www.uibe.edu.cn/xywh/xxdt/index.htm" target="_blank" rel="noopener">贸大官网 · 学校地图</a>（2026年3月更新版）</div>
+</div>
 <noscript>
   <div style="padding:40px 20px;text-align:center;line-height:2">
     <h2>贸大新生指南</h2>
@@ -364,7 +446,7 @@
 
 <script>
 // ================= 版本 =================
-const APP_VERSION = 'v10'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
+const APP_VERSION = 'v11'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
 
 // ================= 状态 =================
 const store = {
@@ -461,6 +543,8 @@ function renderHome() {
   const entries = [
     { ico: "✅", name: "报到清单", desc: `${CHECKLIST.flatMap(g => g.items).length} 项逐条打勾，进度一目了然`, to: "#/check" },
     { ico: "📚", name: "攻略库", desc: `${GUIDES.length} 篇攻略，覆盖开学全场景`, to: "#/guides" },
+    { ico: "🗺️", name: "校园地图", desc: "官方校园地图，放大查看，报到不迷路", to: "#/map" },
+    { ico: "📞", name: "院系联系", desc: `${CONTACTS.length} 个院系官方电话/邮箱，一键拨打`, to: "#/contacts" },
     { ico: "🤖", name: "AI 百事通", desc: `${FAQ.length} 条常见问答，秒答`, to: "#/ai" },
     { ico: "🛡️", name: "防骗手册", desc: "开学季 5 大骗局全拆解", to: "#/guides?cat=防骗" },
   ];
@@ -489,6 +573,116 @@ function renderHome() {
         </button>`).join('')}
       <div class="muted-tip">信息来源：2026级新生入学指南（官方）+ 贸大官网 + 学长学姐经验<br>关键信息以学校正式通知为准</div>
     </div>`;
+}
+
+// ================= 校园地图 =================
+// 地标清单: 以贸大官网校园地图(2026年3月更新版)实际标注为准
+const MAP_LANDMARKS = [
+  { group: "校门", items: ["南门", "东门", "西北门"] },
+  { group: "教学楼", items: ["诚信楼", "博学楼", "宁远楼", "求索楼", "求知楼", "求真楼", "知行楼", "行远楼", "清远楼", "高远楼", "行政楼", "科研楼"] },
+  { group: "图书馆与场馆", items: ["图书馆", "计算中心", "博物馆", "红天体育馆", "体育中心", "排球场", "金融广场", "书香广场", "致远轩", "博雅苑"] },
+  { group: "食堂生活", items: ["第一食堂", "第二食堂", "学士园（学生市场）", "国际交流大厦"] },
+  { group: "宿舍区", items: ["汇美公寓", "汇康公寓", "汇智公寓", "汇德公寓", "汇文公寓", "汇才公寓", "汇宾公寓", "汇贤公寓", "汇忠公寓"] },
+];
+
+function renderMap() {
+  $app.innerHTML = `
+    <div class="page">
+      <button class="back-btn" onclick="go('#/home')">← 返回</button>
+      <div class="page-title">🗺️ 校园地图 <span class="sub">官方版 · 点击放大</span></div>
+      <div class="map-card">
+        <div class="map-img-wrap" onclick="openLightbox()">
+          <img class="map-img" src="assets/uibe-campus-map.jpg" alt="对外经济贸易大学校园地图" loading="lazy" width="1600" height="2262">
+          <span class="map-zoom-hint">🔍 点击放大</span>
+        </div>
+        <div class="map-cap">来源：贸大官网「校园文化 → 学校地图」（2026年3月更新版）<br>报到三步走位置：宁远楼（身份核验）→ 诚信楼（学院报到）→ 宿舍楼（入住）。</div>
+        <div class="landmarks">
+          ${MAP_LANDMARKS.map(g => `
+            <h4>${g.group}</h4>
+            <div class="landmark-chips">${g.items.map(it => `<span class="landmark-chip">${it}</span>`).join('')}</div>`).join('')}
+          <div class="map-cap" style="padding:10px 2px 0">⚠️ 地标以地图实际标注为准；地图上宿舍区以各「汇X公寓」标注，未单独标注的楼栋（如虹远楼）不在此列。</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function openLightbox() {
+  const lb = document.getElementById('lightbox');
+  if (!lb) return;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // 初始水平居中显示(地图中部的教学区), 用户可双指缩放/拖动
+  const body = lb.querySelector('.lightbox-body');
+  requestAnimationFrame(() => {
+    body.scrollLeft = (body.scrollWidth - body.clientWidth) / 2;
+  });
+  const close = lb.querySelector('.lightbox-close');
+  if (close) close.focus();
+}
+
+function closeLightbox() {
+  const lb = document.getElementById('lightbox');
+  if (!lb) return;
+  lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ================= 院系联系方式 =================
+let contactSearch = '';
+function filterContacts(kw) {
+  const k = (kw || '').trim();
+  if (!k) return CONTACTS;
+  return CONTACTS.filter(c => (c.name + ' ' + c.location + ' ' + c.phone + ' ' + c.email).includes(k));
+}
+
+function contactCardHTML(c, kw) {
+  const hl = s => highlight(s, kw);
+  // 电话拆分成多个可点击拨打
+  let telHtml = '<span class="pending">待补充</span>';
+  if (c.phone && c.phone !== '待补充') {
+    const parts = c.phone.split(/[/、,，\s]+/).filter(Boolean);
+    telHtml = parts.map(p => `<a href="tel:${p.replace(/\D/g, '')}">${hl(p)}</a>`).join(' / ');
+  }
+  const emailHtml = (c.email && c.email !== '待补充')
+    ? `<a href="mailto:${esc(c.email)}">${hl(c.email)}</a>`
+    : '<span class="pending">待补充</span>';
+  const locHtml = (c.location && c.location !== '待补充') ? hl(c.location) : '<span class="pending">待补充</span>';
+  const siteHost = c.site ? c.site.replace(/^https?:\/\//, '').replace(/\/$/, '') : '';
+  return `
+    <div class="contact-card">
+      <h3>${hl(c.name)}</h3>
+      <div class="c-rows">
+        <div class="c-row"><span class="c-label">电话</span><span class="c-val">${telHtml}</span></div>
+        <div class="c-row"><span class="c-label">邮箱</span><span class="c-val">${emailHtml}</span></div>
+        <div class="c-row"><span class="c-label">地点</span><span class="c-val">${locHtml}</span></div>
+      </div>
+      <div class="c-src">官网 <a href="${esc(c.site || '#')}" target="_blank" rel="noopener">${esc(siteHost)}</a> · <a href="${esc(c.source || '#')}" target="_blank" rel="noopener">来源页</a></div>
+      ${c.note ? `<div class="c-src">💡 ${esc(c.note)}</div>` : ''}
+    </div>`;
+}
+
+function renderContacts(kw) {
+  const searchKw = (kw !== undefined ? kw : contactSearch).trim();
+  const list = filterContacts(searchKw);
+  $app.innerHTML = `
+    <div class="page">
+      <button class="back-btn" onclick="go('#/home')">← 返回</button>
+      <div class="page-title">📞 院系联系 <span class="sub">${CONTACTS.length} 个院系/部门</span></div>
+      <div class="search-box">
+        <input id="cSearch" placeholder="🔍 搜学院，如：金融、统计、法学" value="${esc(searchKw)}" maxlength="30" onkeydown="if(event.key==='Enter'&&!event.isComposing)doContactSearch()">
+        <button onclick="doContactSearch()">搜索</button>
+      </div>
+      ${searchKw ? `<div class="result-tip">找到 ${list.length} 个相关院系</div>` : ''}
+      ${list.map(c => contactCardHTML(c, searchKw)).join('')}
+      ${list.length === 0 ? '<div class="muted-tip">没有找到相关院系，换个关键词试试～</div>' : ''}
+      <div class="muted-tip">信息来源：各学院官网「联系我们/机构设置」页面（2026年8月核实）<br>查不到的电话/邮箱标注「待补充」；办公电话建议工作时间拨打</div>
+    </div>`;
+}
+
+function doContactSearch() {
+  const v = document.getElementById('cSearch').value;
+  contactSearch = v;
+  renderContacts(v);
 }
 
 function renderCheck() {
@@ -783,6 +977,8 @@ function render() {
   else if (top === 'check') renderCheck();
   else if (top === 'guides') renderGuides(params.get('cat') || '全部');
   else if (top === 'ai') renderAi();
+  else if (top === 'map') renderMap();
+  else if (top === 'contacts') renderContacts();
   else renderHome();
   const tabs = [
     { r: 'home', ico: '🏠', name: '首页' },
@@ -797,6 +993,7 @@ function render() {
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', render);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 render();
 
 // ================= 离线可用 (Service Worker) =================

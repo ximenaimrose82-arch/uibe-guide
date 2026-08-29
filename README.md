@@ -8,6 +8,8 @@
 | --- | --- |
 | 🏠 首页 | 报到倒计时 + 各功能入口 + 数据统计 |
 | ✅ 报到清单 | 四大类 23 项逐条打勾，进度条 + 本地保存，勾选不丢 |
+| 🗺️ 校园地图 | 官网 2026 版地图，点击放大（双指缩放），附地标说明 |
+| 📞 院系联系 | 18 个院系/部门官方电话、邮箱、地点，可搜索、一键拨打/发信 |
 | 📚 攻略库 | 40+ 篇攻略，分类筛选 + 关键词搜索（带高亮） |
 | 🤖 AI 百事通 | 三层应答：本地 FAQ 精准匹配 → 攻略库模糊兜底 → DeepSeek AI（国内/国外双通道自动切换） |
 | 🛡️ 防骗手册 | 开学季 5 大骗局拆解 + 紧急电话 |
@@ -20,13 +22,14 @@ uibe-guide/
 ├── index.html            # 整个网站（页面 + 样式 + 逻辑）
 ├── data-guides.js        # 攻略数据（GUIDES）
 ├── data-faq.js           # 问答数据（FAQ）
+├── data-contacts.js      # 院系联系方式数据（CONTACTS，官网核实）
 ├── worker.js             # Cloudflare Worker：AI 代理（备用通道）
 ├── scf_function.py       # 腾讯云函数：AI 代理（国内主通道）
 ├── wrangler.toml         # Cloudflare Worker 配置
 ├── manifest.webmanifest  # PWA 清单
 ├── sw.js                 # 离线 Service Worker
 ├── share.png             # 分享卡片（1200×630）
-├── assets/               # App 图标（180/192/512）
+├── assets/               # App 图标 + 校园地图
 ├── scripts/serve.mjs     # 本地预览服务器（零依赖）
 ├── tools/gen-icons.ps1   # 重新生成图片资源（Windows）
 └── .github/workflows/    # 推送 main 自动部署 GitHub Pages
@@ -75,7 +78,8 @@ npx wrangler deploy        # 使用 wrangler.toml
 
 - **攻略**：编辑 `data-guides.js`，按现有格式加一条 `{ cat, icon, title, body }`；
 - **问答**：编辑 `data-faq.js`，加 `{ q, kws, a }`，`kws` 是触发关键词；
-- **改版发布**：把 `index.html` 里的 `APP_VERSION` 和两个数据文件 `?v=` 号 +1，同时把 `sw.js` 顶部的缓存名 `uibe-guide-v10` 也 +1，避免老用户拿到旧缓存。
+- **院系联系方式**：编辑 `data-contacts.js`，加 `{ name, phone, email, location, site, source }`；电话/邮箱必须是官网页面实际标注，查不到标「待补充」，并给出 `source`（来源页面 URL）；
+- **改版发布**：把 `index.html` 里的 `APP_VERSION` 和三个数据文件 `?v=` 号 +1，同时把 `sw.js` 顶部的缓存名 `uibe-guide-v11` 也 +1，避免老用户拿到旧缓存。
 
 ## 🖼️ 重新生成图片
 
