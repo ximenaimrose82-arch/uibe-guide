@@ -164,7 +164,7 @@
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   .page-title { font-size: 19px; font-weight: 800; margin: 4px 2px 12px; display: flex; align-items: center; gap: 8px; font-family: var(--serif); }
   .page-title::before { content: ""; width: 4px; height: 18px; background: var(--red); border-radius: 2px; flex-shrink: 0; }
-  .page-title .sub { font-size: 12px; color: var(--muted); font-weight: 400; }
+  .page-title .sub { font-size: 12px; color: var(--muted); font-weight: 400; white-space: nowrap; flex-shrink: 0; }
   .clear-btn {
     margin-left: auto; border: none; background: transparent;
     font-size: 12px; color: var(--muted); cursor: pointer; padding: 4px 8px;
@@ -974,7 +974,7 @@ function renderAi() {
   $app.innerHTML = `
     <div class="page" style="padding-bottom:0">
       <button class="back-btn" onclick="go('#/home')">← 返回</button>
-      <div class="page-title">🤖 AI 百事通 <span class="sub">本地知识库秒答 + AI 实时作答 · ${APP_VERSION}</span>
+      <div class="page-title">🤖 AI 百事通 <span class="sub">知识库秒答 · AI 实时作答</span>
         <button class="clear-btn" onclick="clearChat()" title="清空聊天记录">🗑️ 清空</button>
       </div>
       <div class="ai-box">
