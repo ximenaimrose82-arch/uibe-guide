@@ -114,20 +114,20 @@
     background: radial-gradient(circle, #e8cf8e, rgba(201,168,106,.15) 70%, transparent); }
   .hero-badge { position: relative; text-align: center; padding-top: 30px; }
   .hero-badge .crest { position: relative; display: inline-block; }
-  .hero-badge .crest::after { content: ""; position: absolute; inset: -7px; border: 1px solid rgba(201,168,106,.55); border-radius: 50%; }
-  .hero-badge .crest .corner { position: absolute; width: 14px; height: 14px; border: 1.5px solid #c9a86a; }
-  .hero-badge .crest .c1 { top: -12px; left: -12px; border-right: none; border-bottom: none; }
-  .hero-badge .crest .c2 { top: -12px; right: -12px; border-left: none; border-bottom: none; }
-  .hero-badge .crest .c3 { bottom: -12px; left: -12px; border-right: none; border-top: none; }
-  .hero-badge .crest .c4 { bottom: -12px; right: -12px; border-left: none; border-top: none; }
-  .hero-badge img { width: 80px; height: 80px; border-radius: 50%; object-fit: contain; position: relative;
+  .hero-badge .crest::after { content: ""; position: absolute; inset: -5px; border: 1px solid rgba(201,168,106,.55); border-radius: 50%; }
+  .hero-badge .crest .corner { position: absolute; width: 13px; height: 13px; border: 1.5px solid #c9a86a; }
+  .hero-badge .crest .c1 { top: -11px; left: -11px; border-right: none; border-bottom: none; }
+  .hero-badge .crest .c2 { top: -11px; right: -11px; border-left: none; border-bottom: none; }
+  .hero-badge .crest .c3 { bottom: -11px; left: -11px; border-right: none; border-top: none; }
+  .hero-badge .crest .c4 { bottom: -11px; right: -11px; border-left: none; border-top: none; }
+  .hero-badge img { width: 100px; height: 100px; border-radius: 50%; object-fit: contain; position: relative;
     filter: drop-shadow(0 4px 14px rgba(74,64,50,.18)); }
   .hero-nav { position: relative; display: flex; justify-content: space-between; align-items: center; margin: 18px 40px 0; }
   .hero-logo { font-family: var(--serif); font-size: 15px; letter-spacing: 3px; color: var(--text); font-weight: 700; }
   .hero-ver { font-size: 10px; letter-spacing: 3px; color: #a39179; }
   .hero-center { position: relative; text-align: center; padding: 24px 24px 0; }
   .hero-kicker { font-family: var(--serif); font-size: 13px; letter-spacing: 8px; color: var(--red); }
-  .hero h1 { font-family: var(--serif); font-size: 52px; font-weight: 800; letter-spacing: 12px;
+  .hero h1 { font-family: "KaiTi", "STKaiti", "楷体", var(--serif); font-size: 52px; font-weight: 700; letter-spacing: 12px;
     color: #262019; margin-top: 14px; text-indent: 12px; text-shadow: 0 1px 0 rgba(255,255,255,.6); }
   .hero .uibe-en { margin-top: 8px; font-family: Georgia, serif; font-size: 12px; letter-spacing: 7px;
     color: #8f8066; text-transform: uppercase; }
@@ -138,6 +138,7 @@
   .hero .hero-sub b { color: var(--red); font-weight: 400; }
   .hero .hero-motto { margin-top: 15px; font-family: var(--serif); font-size: 14px; letter-spacing: 10px;
     color: #4a4032; white-space: nowrap; }
+  .hero .quote { margin-top: 10px; font-family: var(--serif); font-size: 11px; letter-spacing: 5px; color: #a39179; }
   .hero .hero-stats { display: flex; justify-content: center; margin-top: 17px; }
   .hero .hstat { text-align: center; padding: 0 15px; }
   .hero .hstat + .hstat { border-left: 1px solid rgba(201,168,106,.4); }
@@ -629,6 +630,7 @@ function renderWelcome() {
         <div class="gline"><span class="dia"></span></div>
         <div class="hero-sub">报到 <b>·</b> 军训 <b>·</b> 选课 <b>·</b> 生活 <b>·</b> 防骗</div>
         <div class="hero-motto">博学 诚信 求索 笃行</div>
+        <div class="quote">惠风和畅 · 静候君来</div>
         <div class="hero-stats">
           <div class="hstat"><b>${FAQ.length}</b><span>常见问答</span></div>
           <div class="hstat"><b>${GUIDES.length}</b><span>篇攻略</span></div>
