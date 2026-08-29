@@ -174,6 +174,17 @@
   .entry-desc { font-size: 12px; color: var(--muted); margin-top: 3px; }
   .entry-arrow { margin-left: auto; color: #d8ccc0; font-size: 18px; }
 
+  /* ===== 探索页顶栏 ===== */
+  .home-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid #e8dfcd;
+    background: rgba(255,253,249,.7);
+  }
+  .home-head .hh-logo { width: 34px; height: 34px; border-radius: 50%; object-fit: contain; }
+  .home-head .hh-name { font-family: var(--serif); font-size: 15px; font-weight: 700; letter-spacing: 2px; color: var(--text); }
+  .home-head .hh-ver { margin-left: auto; font-size: 10px; letter-spacing: 2px; color: #9a8a6f; }
+
   /* ===== 报到清单 ===== */
   .check-group {
     background: var(--card);
@@ -503,7 +514,7 @@ const $tabbar = document.getElementById('tabbar');
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function go(h) { location.hash = h; }
 function parseRoute() {
-  const h = (location.hash || '#/home').replace(/^#/, '').split('?')[0];
+  const h = (location.hash || '#/welcome').replace(/^#/, '').split('?')[0];
   return h.split('/').filter(Boolean).map(s => { try { return decodeURIComponent(s); } catch(e) { return s; } });
 }
 // 搜索关键词高亮(先转义再替换, 防 XSS)
@@ -565,16 +576,8 @@ function pushMsgs(list) {
 }
 
 // ================= 页面渲染 =================
-function renderHome() {
-  const entries = [
-    { ico: "✅", name: "报到清单", desc: `${CHECKLIST.flatMap(g => g.items).length} 项逐条打勾，进度一目了然`, to: "#/check" },
-    { ico: "📚", name: "攻略库", desc: `${GUIDES.length} 篇攻略，覆盖开学全场景`, to: "#/guides" },
-    { ico: "🗺️", name: "校园地图", desc: "官方校园地图，放大查看，报到不迷路", to: "#/map" },
-    { ico: "📞", name: "院系联系", desc: `${CONTACTS.length} 个院系官方电话/邮箱，一键拨打`, to: "#/contacts" },
-    { ico: "📱", name: "公众号大全", desc: `${WECHAT.length} 个官方公众号，复制名称去微信搜`, to: "#/wechat" },
-    { ico: "🤖", name: "AI 百事通", desc: "AI 实时思考，贸大问题随问随答", to: "#/ai" },
-    { ico: "🛡️", name: "防骗手册", desc: "开学季 5 大骗局全拆解", to: "#/guides?cat=防骗" },
-  ];
+// 欢迎页(打开网站的第一屏, 纯门面, 无需滚动)
+function renderWelcome() {
   $app.innerHTML = `
     <div class="hero">
       <div class="hero-badge"><img src="assets/uibe-logo.png" alt="对外经济贸易大学校徽"></div>
@@ -595,7 +598,7 @@ function renderHome() {
           <div class="hstat"><b>${CONTACTS.length}</b><span>个院系</span></div>
         </div>
         <div class="hero-cta">
-          <a class="hero-btn primary" href="#/check">开始使用</a>
+          <a class="hero-btn primary" href="#/home">开始使用</a>
           <a class="hero-btn ghost" href="#/ai">AI 百事通</a>
         </div>
         <div class="countdown">${countdownText()}</div>
@@ -603,9 +606,28 @@ function renderHome() {
       <svg class="hero-mountains" viewBox="0 0 1440 180" preserveAspectRatio="none" aria-hidden="true">
         <path d="M0,180 L180,80 L320,150 L500,50 L680,140 L860,70 L1040,150 L1240,60 L1440,130 L1440,180 Z" fill="#5a4a2e"/>
       </svg>
+    </div>`;
+}
+
+// 探索页(功能入口列表, 底部 tab「首页」指向这里)
+function renderHome() {
+  const entries = [
+    { ico: "✅", name: "报到清单", desc: `${CHECKLIST.flatMap(g => g.items).length} 项逐条打勾，进度一目了然`, to: "#/check" },
+    { ico: "📚", name: "攻略库", desc: `${GUIDES.length} 篇攻略，覆盖开学全场景`, to: "#/guides" },
+    { ico: "🗺️", name: "校园地图", desc: "官方校园地图，放大查看，报到不迷路", to: "#/map" },
+    { ico: "📞", name: "院系联系", desc: `${CONTACTS.length} 个院系官方电话/邮箱，一键拨打`, to: "#/contacts" },
+    { ico: "📱", name: "公众号大全", desc: `${WECHAT.length} 个官方公众号，复制名称去微信搜`, to: "#/wechat" },
+    { ico: "🤖", name: "AI 百事通", desc: "AI 实时思考，贸大问题随问随答", to: "#/ai" },
+    { ico: "🛡️", name: "防骗手册", desc: "开学季 5 大骗局全拆解", to: "#/guides?cat=防骗" },
+  ];
+  $app.innerHTML = `
+    <div class="home-head">
+      <img class="hh-logo" src="assets/uibe-logo.png" alt="校徽">
+      <span class="hh-name">贸大新生指南</span>
+      <span class="hh-ver">丙午 · 2026 级</span>
     </div>
     <div class="page">
-      <div class="page-title">🏠 开始探索</div>
+      <div class="page-title">🧭 开始探索</div>
       ${entries.map(e => `
         <button type="button" class="entry-card" onclick="go('${e.to}')">
           <span class="entry-ico">${e.ico}</span>
@@ -1049,10 +1071,11 @@ function askText(q, a) {
 // ================= 路由 =================
 function render() {
   route = parseRoute();
-  const top = route[0] || 'home';
+  const top = route[0] || 'welcome';
   const q = (location.hash.split('?')[1] || '');
   const params = new URLSearchParams(q);
-  if (top === 'home') renderHome();
+  if (top === 'welcome') renderWelcome();
+  else if (top === 'home') renderHome();
   else if (top === 'check') renderCheck();
   else if (top === 'guides') renderGuides(params.get('cat') || '全部');
   else if (top === 'ai') renderAi();
@@ -1066,8 +1089,9 @@ function render() {
     { r: 'guides', ico: '📚', name: '攻略' },
     { r: 'ai', ico: '🤖', name: 'AI' },
   ];
+  const tabTop = top === 'welcome' ? 'home' : top;
   $tabbar.innerHTML = tabs.map(t =>
-    `<button type="button" class="tab${top === t.r ? ' on' : ''}" onclick="go('#/${t.r}')" aria-current="${top === t.r ? 'page' : ''}">
+    `<button type="button" class="tab${tabTop === t.r ? ' on' : ''}" onclick="go('#/${t.r}')" aria-current="${tabTop === t.r ? 'page' : ''}">
       <span class="t-ico">${t.ico}</span>${t.name}
     </button>`).join('');
   window.scrollTo(0, 0);
