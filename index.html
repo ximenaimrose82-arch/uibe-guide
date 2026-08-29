@@ -103,42 +103,33 @@
     background-image: radial-gradient(rgba(90,70,40,.05) 1px, transparent 1px);
     background-size: 22px 22px;
   }
-  .hero-badge { position: relative; text-align: center; padding-top: 30px; }
-  .hero-badge img { width: 92px; height: 92px; border-radius: 50%; object-fit: contain;
+  .hero-badge { position: relative; text-align: center; padding-top: 22px; }
+  .hero-badge img { width: 72px; height: 72px; border-radius: 50%; object-fit: contain;
     filter: drop-shadow(0 4px 14px rgba(74,64,50,.18)); }
-  .hero-nav { position: relative; display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+  .hero-nav { position: relative; display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
   .hero-logo { font-family: var(--serif); font-size: 15px; letter-spacing: 3px; color: var(--text); font-weight: 700; }
   .hero-ver { font-size: 10px; letter-spacing: 3px; color: #9a8a6f; }
-  .hero-center { position: relative; text-align: center; padding-top: 30px; }
+  .hero-center { position: relative; text-align: center; padding-top: 22px; }
   .hero-kicker { font-family: var(--serif); font-size: 13px; letter-spacing: 8px; color: var(--red); }
-  .hero h1 { font-family: var(--serif); font-size: 44px; font-weight: 700; letter-spacing: 10px;
-    color: #2c2418; margin-top: 16px; text-indent: 10px; }
-  .hero .uibe-en { margin-top: 10px; font-family: Georgia, serif; font-size: 12px; letter-spacing: 6px;
+  .hero h1 { font-family: var(--serif); font-size: 40px; font-weight: 700; letter-spacing: 10px;
+    color: #2c2418; margin-top: 12px; text-indent: 10px; }
+  .hero .uibe-en { margin-top: 8px; font-family: Georgia, serif; font-size: 12px; letter-spacing: 6px;
     color: #8f8066; text-transform: uppercase; }
-  .hero .hero-sub { margin-top: 18px; font-size: 13px; letter-spacing: 5px; color: #6d6150; }
+  .hero .hero-sub { margin-top: 14px; font-size: 13px; letter-spacing: 5px; color: #6d6150; }
   .hero .hero-sub b { color: var(--red); font-weight: 400; }
-  .hero .hero-motto { margin-top: 22px; font-family: var(--serif); font-size: 14px; letter-spacing: 9px;
+  .hero .hero-motto { margin-top: 16px; font-family: var(--serif); font-size: 14px; letter-spacing: 9px;
     color: #4a4032; white-space: nowrap; }
-  .hero .hero-quote { margin-top: 10px; font-family: var(--serif); font-size: 11px; letter-spacing: 5px; color: #a39179; }
-  .hero .hero-stats { display: flex; justify-content: center; margin-top: 22px; }
+  .hero .hero-stats { display: flex; justify-content: center; margin-top: 16px; }
   .hero .hstat { text-align: center; padding: 0 16px; }
   .hero .hstat + .hstat { border-left: 1px solid rgba(74,64,50,.15); }
   .hero .hstat b { display: block; font-family: Georgia, var(--serif), serif; font-size: 20px; color: var(--red); }
   .hero .hstat span { font-size: 10px; letter-spacing: 1px; color: #9a8a6f; }
-  .hero-cta { display: flex; gap: 12px; justify-content: center; margin-top: 26px; }
-  .hero-btn { font-size: 13px; letter-spacing: 2px; padding: 11px 30px; text-decoration: none; border-radius: 3px; }
+  .hero-cta { display: flex; gap: 12px; justify-content: center; margin-top: 20px; }
+  .hero-btn { font-size: 13px; letter-spacing: 2px; padding: 10px 28px; text-decoration: none; border-radius: 3px; }
   .hero-btn.primary { background: var(--red); color: #f7f1e4; box-shadow: 0 6px 20px rgba(200,16,46,.25); }
   .hero-btn.ghost { border: 1px solid #b3a688; color: #6d6150; }
-  .hero .countdown { margin-top: 22px; font-size: 11px; letter-spacing: 4px; color: #9a8a6f; }
-  .hero-mini { display: flex; gap: 8px; justify-content: center; margin-top: 24px; }
-  .hero-mini button {
-    flex: 1; max-width: 88px; background: #fffdf9; border: 1px solid #e8dfcd;
-    border-radius: 6px; padding: 10px 4px; cursor: pointer; font-size: 11px; color: #6d6150;
-  }
-  .hero-mini button:active { border-color: var(--red); color: var(--red); }
-  .hero-foot { position: relative; text-align: center; margin-top: 24px;
-    font-family: var(--serif); font-size: 11px; letter-spacing: 5px; color: #b3a688; }
-  .hero-mountains { position: relative; display: block; width: 100%; height: 74px; margin-top: 14px; opacity: .14; pointer-events: none; }
+  .hero .countdown { margin-top: 16px; font-size: 11px; letter-spacing: 4px; color: #9a8a6f; }
+  .hero-mountains { position: relative; display: block; width: 100%; height: 44px; margin-top: 10px; opacity: .14; pointer-events: none; }
 
   /* ===== 通用容器 ===== */
   .page { padding: 16px 14px; animation: fadeIn .25s ease; }
@@ -597,7 +588,6 @@ function renderHome() {
         <div class="uibe-en">UIBE GUIDE 2026</div>
         <div class="hero-sub">报到 <b>·</b> 军训 <b>·</b> 选课 <b>·</b> 生活 <b>·</b> 防骗</div>
         <div class="hero-motto">博学 诚信 求索 笃行</div>
-        <div class="hero-quote">惠风和畅 · 静候君来</div>
         <div class="hero-stats">
           <div class="hstat"><b>${FAQ.length}</b><span>常见问答</span></div>
           <div class="hstat"><b>${GUIDES.length}</b><span>篇攻略</span></div>
@@ -609,13 +599,6 @@ function renderHome() {
           <a class="hero-btn ghost" href="#/ai">AI 百事通</a>
         </div>
         <div class="countdown">${countdownText()}</div>
-        <div class="hero-mini">
-          <button type="button" onclick="go('#/check')">✅ 报到清单</button>
-          <button type="button" onclick="go('#/guides')">📚 攻略库</button>
-          <button type="button" onclick="go('#/map')">🗺️ 校园地图</button>
-          <button type="button" onclick="go('#/ai')">🤖 AI 百事通</button>
-        </div>
-        <div class="hero-foot">一页读懂你的开学季</div>
       </div>
       <svg class="hero-mountains" viewBox="0 0 1440 180" preserveAspectRatio="none" aria-hidden="true">
         <path d="M0,180 L180,80 L320,150 L500,50 L680,140 L860,70 L1040,150 L1240,60 L1440,130 L1440,180 Z" fill="#5a4a2e"/>
