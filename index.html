@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>贸大新生指南 · UIBE Guide 2026</title>
-<meta name="description" content="对外经济贸易大学2026级新生入学指南：报到流程、军训攻略、选课技巧、宿舍食堂、防骗手册，还有AI百事通智能问答，手机点开即用。">
+<meta name="description" content="对外经济贸易大学2026级新生入学指南：报到流程、军训攻略、选课技巧、宿舍食堂、防骗手册，还有AI百事通智能问答（实时思考），手机点开即用。">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#c8102e">
 <link rel="canonical" href="https://ximenaimrose82-arch.github.io/uibe-guide/">
@@ -545,7 +545,7 @@ function renderHome() {
     { ico: "📚", name: "攻略库", desc: `${GUIDES.length} 篇攻略，覆盖开学全场景`, to: "#/guides" },
     { ico: "🗺️", name: "校园地图", desc: "官方校园地图，放大查看，报到不迷路", to: "#/map" },
     { ico: "📞", name: "院系联系", desc: `${CONTACTS.length} 个院系官方电话/邮箱，一键拨打`, to: "#/contacts" },
-    { ico: "🤖", name: "AI 百事通", desc: `${FAQ.length} 条常见问答，秒答`, to: "#/ai" },
+    { ico: "🤖", name: "AI 百事通", desc: "AI 实时思考，贸大问题随问随答", to: "#/ai" },
     { ico: "🛡️", name: "防骗手册", desc: "开学季 5 大骗局全拆解", to: "#/guides?cat=防骗" },
   ];
   const done = store.checklist.length;
@@ -816,13 +816,13 @@ function renderAi() {
   $app.innerHTML = `
     <div class="page" style="padding-bottom:0">
       <button class="back-btn" onclick="go('#/home')">← 返回</button>
-      <div class="page-title">🤖 AI 百事通 <span class="sub">本地 ${FAQ.length} 条问答 · ${APP_VERSION}</span>
+      <div class="page-title">🤖 AI 百事通 <span class="sub">本地知识库秒答 + AI 实时作答 · ${APP_VERSION}</span>
         <button class="clear-btn" onclick="clearChat()" title="清空聊天记录">🗑️ 清空</button>
       </div>
       <div class="ai-box">
         <div class="ai-head"><span class="ai-dot"></span> 贸大百事通 · 在线</div>
         <div class="ai-msgs" id="aiMsgs">
-          <div class="msg ai">你好呀！我是贸大百事通 👋<br>报到、军训、选课、生活、防骗……<br>关于贸大的问题都可以问我～</div>
+          <div class="msg ai">你好呀！我是贸大百事通 👋<br>报到、军训、选课、生活、防骗……<br>知道的直接答你，拿不准的我会认真分析后回答～</div>
           ${hist.map(m => msgHTML(m.role, m.text)).join('')}
         </div>
         <div class="ai-sug" id="aiSug"></div>
