@@ -57,9 +57,10 @@
   ]
 }
 </script>
-<script src="data-guides.js?v=11"></script>
-<script src="data-faq.js?v=11"></script>
-<script src="data-contacts.js?v=11"></script>
+<script src="data-guides.js?v=12"></script>
+<script src="data-faq.js?v=12"></script>
+<script src="data-contacts.js?v=12"></script>
+<script src="data-wechat.js?v=12"></script>
 <style>
   :root {
     --red: #c8102e;
@@ -409,6 +410,22 @@
   .contact-card .c-src a { color: var(--muted); text-decoration: underline; }
   .contact-card mark { background: #ffe9a8; border-radius: 3px; padding: 0 1px; }
 
+  /* ===== 公众号大全 ===== */
+  .wechat-card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 14px 16px; margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(90,60,40,.06);
+  }
+  .wechat-card h3 { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+  .wechat-card .w-cat { font-size: 11px; font-weight: 400; color: var(--muted); background: #f6efe6; border-radius: 4px; padding: 2px 6px; flex-shrink: 0; }
+  .wechat-card .w-desc { margin-top: 7px; font-size: 13px; line-height: 1.8; color: var(--text); }
+  .wechat-card .w-copy {
+    margin-top: 10px; display: inline-flex; align-items: center; gap: 4px;
+    border: 1.5px solid var(--red); color: var(--red); background: #fff;
+    border-radius: 16px; padding: 5px 14px; font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  .wechat-card .w-copy:active { background: var(--red); color: #fff; }
+
   /* ===== Toast 提示 ===== */
   #toast {
     position: fixed; bottom: 84px; left: 50%; transform: translate(-50%, 12px);
@@ -446,7 +463,7 @@
 
 <script>
 // ================= 版本 =================
-const APP_VERSION = 'v11'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
+const APP_VERSION = 'v12'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
 
 // ================= 状态 =================
 const store = {
@@ -545,6 +562,7 @@ function renderHome() {
     { ico: "📚", name: "攻略库", desc: `${GUIDES.length} 篇攻略，覆盖开学全场景`, to: "#/guides" },
     { ico: "🗺️", name: "校园地图", desc: "官方校园地图，放大查看，报到不迷路", to: "#/map" },
     { ico: "📞", name: "院系联系", desc: `${CONTACTS.length} 个院系官方电话/邮箱，一键拨打`, to: "#/contacts" },
+    { ico: "📱", name: "公众号大全", desc: `${WECHAT.length} 个官方公众号，复制名称去微信搜`, to: "#/wechat" },
     { ico: "🤖", name: "AI 百事通", desc: "AI 实时思考，贸大问题随问随答", to: "#/ai" },
     { ico: "🛡️", name: "防骗手册", desc: "开学季 5 大骗局全拆解", to: "#/guides?cat=防骗" },
   ];
@@ -683,6 +701,44 @@ function doContactSearch() {
   const v = document.getElementById('cSearch').value;
   contactSearch = v;
   renderContacts(v);
+}
+
+// ================= 公众号大全 =================
+let wechatSearch = '';
+function renderWechat(cat, kw) {
+  const searchKw = (kw !== undefined ? kw : wechatSearch).trim();
+  let list = WECHAT;
+  if (cat && cat !== '全部') list = list.filter(w => w.cat === cat);
+  if (searchKw) list = list.filter(w => (w.name + ' ' + w.desc).includes(searchKw));
+  const cats = ['全部', ...new Set(WECHAT.map(w => w.cat))];
+  const searching = !!(searchKw || (cat && cat !== '全部'));
+  $app.innerHTML = `
+    <div class="page">
+      <button class="back-btn" onclick="go('#/home')">← 返回</button>
+      <div class="page-title">📱 公众号大全 <span class="sub">${WECHAT.length} 个官方公众号</span></div>
+      <div class="search-box">
+        <input id="wSearch" placeholder="🔍 搜公众号，如：志愿、就业、图书馆" value="${esc(searchKw)}" maxlength="30" onkeydown="if(event.key==='Enter'&&!event.isComposing)doWechatSearch()">
+        <button onclick="doWechatSearch()">搜索</button>
+      </div>
+      ${searching ? `<div class="result-tip">找到 ${list.length} 个相关公众号</div>` : ''}
+      <div class="chips">
+        ${cats.map(c => `<button type="button" class="chip${c === (cat || '全部') ? ' on' : ''}" onclick="wechatSearch='';go('#/wechat?cat=${encodeURIComponent(c)}')">${c}</button>`).join('')}
+      </div>
+      ${list.map(w => `
+        <div class="wechat-card">
+          <h3><span class="w-cat">${esc(w.cat)}</span> ${highlight(w.name, searchKw)}</h3>
+          <div class="w-desc">${highlight(w.desc, searchKw)}</div>
+          <button type="button" class="w-copy" onclick="copyText('${esc(w.name)}')">📋 复制名称，去微信搜</button>
+        </div>`).join('')}
+      ${list.length === 0 ? '<div class="muted-tip">没有找到相关公众号，换个关键词试试～</div>' : ''}
+      <div class="muted-tip">来源：2026级新生整理（2026年8月）<br>复制公众号名称 → 打开微信「搜一搜」粘贴即可关注</div>
+    </div>`;
+}
+
+function doWechatSearch() {
+  const v = document.getElementById('wSearch').value;
+  wechatSearch = v;
+  renderWechat(route[1] && route[1] !== '全部' ? route[1] : '全部', v);
 }
 
 function renderCheck() {
@@ -979,6 +1035,7 @@ function render() {
   else if (top === 'ai') renderAi();
   else if (top === 'map') renderMap();
   else if (top === 'contacts') renderContacts();
+  else if (top === 'wechat') renderWechat(params.get('cat') || '全部');
   else renderHome();
   const tabs = [
     { r: 'home', ico: '🏠', name: '首页' },
