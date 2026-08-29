@@ -14,13 +14,16 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 let faqCode = readFileSync(join(root, 'data-faq.js'), 'utf8').replace(/^const (FAQ|GUIDES) = /m, 'globalThis.$1 = ');
 let guidesCode = readFileSync(join(root, 'data-guides.js'), 'utf8').replace(/^const (FAQ|GUIDES) = /m, 'globalThis.$1 = ');
 let contactsCode = readFileSync(join(root, 'data-contacts.js'), 'utf8').replace(/^const (FAQ|GUIDES|CONTACTS) = /m, 'globalThis.$1 = ');
+let wechatCode = readFileSync(join(root, 'data-wechat.js'), 'utf8').replace(/^const (FAQ|GUIDES|CONTACTS|WECHAT) = /m, 'globalThis.$1 = ');
 (0, eval)(faqCode);
 (0, eval)(guidesCode);
 (0, eval)(contactsCode);
+(0, eval)(wechatCode);
 
 const FAQ = globalThis.FAQ;
 const GUIDES = globalThis.GUIDES;
 const CONTACTS = globalThis.CONTACTS;
+const WECHAT = globalThis.WECHAT;
 
 let problems = 0;
 FAQ.forEach((f, i) => {
@@ -35,13 +38,16 @@ CONTACTS.forEach((c, i) => {
     if (typeof c[f] !== 'string' || c[f].trim() === '') { console.log(`CONTACTS[${i}] 字段 ${f} 为空`, c); problems++; }
   }
 });
+WECHAT.forEach((w, i) => {
+  if (!w.name || !w.cat || !w.desc) { console.log(`WECHAT[${i}] 缺少字段`, w); problems++; }
+});
 const telRe = /^(010-)?\d{7,8}([/、]\d{2,8})*$/;
 CONTACTS.forEach((c, i) => {
   if (c.phone !== '待补充' && !telRe.test(c.phone.replace(/\s/g, ''))) {
     console.log(`CONTACTS[${i}] 电话格式异常: "${c.phone}"`); problems++;
   }
 });
-console.log(`数据完整性: FAQ=${FAQ.length} 条, GUIDES=${GUIDES.length} 篇, CONTACTS=${CONTACTS.length} 条, 问题数=${problems}`);
+console.log(`数据完整性: FAQ=${FAQ.length} 条, GUIDES=${GUIDES.length} 篇, CONTACTS=${CONTACTS.length} 条, WECHAT=${WECHAT.length} 条, 问题数=${problems}`);
 
 // ---- 2. 加载 index.html 的主脚本(最后一个无 src 的 <script>) ----
 const html = readFileSync(join(root, 'index.html'), 'utf8');
@@ -100,6 +106,11 @@ check('无关问题不硬答(null)', api.matchGuide('随机无意义内容xyz') 
 
 const m = api.msgHTML('ai', '你好\n世界');
 check('msgHTML 含复制按钮且换行转 <br>', m.includes('copy-btn') && m.includes('<br>'));
+
+// ---- 公众号大全 (v12) ----
+check('WECHAT 覆盖 ≥20 个公众号', WECHAT.length >= 20);
+check('WECHAT 分类 ≥5 组', new Set(WECHAT.map(w => w.cat)).size >= 5);
+check('WECHAT 无空名称/空分类', WECHAT.every(w => w.name.trim() !== '' && w.cat.trim() !== ''));
 
 // ---- 校园地图 ----
 check('MAP_LANDMARKS 有 5 组分组的标注', api.MAP_LANDMARKS.length === 5 && api.MAP_LANDMARKS.every(g => g.items.length > 0));

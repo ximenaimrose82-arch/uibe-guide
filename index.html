@@ -57,11 +57,18 @@
   ]
 }
 </script>
-<script src="data-guides.js?v=14"></script>
-<script src="data-faq.js?v=14"></script>
-<script src="data-contacts.js?v=14"></script>
-<script src="data-wechat.js?v=14"></script>
+<script src="data-guides.js?v=15"></script>
+<script src="data-faq.js?v=15"></script>
+<script src="data-contacts.js?v=15"></script>
+<script src="data-wechat.js?v=15"></script>
 <style>
+  /* 楷体网页字体(霞鹜文楷子集, 保证手机/电脑渲染一致) */
+  @font-face {
+    font-family: "LXGW WenKai";
+    src: url("assets/fonts/uibe-kaiti.woff2") format("woff2");
+    font-display: swap;
+    font-weight: 400;
+  }
   :root {
     --red: #c8102e;
     --red-dark: #9e0d25;
@@ -127,7 +134,7 @@
   .hero-ver { font-size: 10px; letter-spacing: 3px; color: #a39179; }
   .hero-center { position: relative; text-align: center; padding: 24px 24px 0; }
   .hero-kicker { font-family: var(--serif); font-size: 13px; letter-spacing: 8px; color: var(--red); }
-  .hero h1 { font-family: "KaiTi", "STKaiti", "楷体", var(--serif); font-size: 52px; font-weight: 700; letter-spacing: 12px;
+  .hero h1 { font-family: "LXGW WenKai", "KaiTi", "STKaiti", "楷体", var(--serif); font-size: 52px; font-weight: 700; letter-spacing: 12px;
     color: #262019; margin-top: 14px; text-indent: 12px; text-shadow: 0 1px 0 rgba(255,255,255,.6); }
   .hero .uibe-en { margin-top: 8px; font-family: Georgia, serif; font-size: 12px; letter-spacing: 7px;
     color: #8f8066; text-transform: uppercase; }
@@ -511,7 +518,7 @@
 
 <script>
 // ================= 版本 =================
-const APP_VERSION = 'v14'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
+const APP_VERSION = 'v15'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
 
 // ================= 状态 =================
 const store = {
