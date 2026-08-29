@@ -99,37 +99,64 @@
     padding: 0 22px 30px;
   }
   .hero::before {
-    content: ""; position: absolute; inset: 0; opacity: .5; pointer-events: none;
-    background-image: radial-gradient(rgba(90,70,40,.05) 1px, transparent 1px);
-    background-size: 22px 22px;
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 120% 80% at 50% -10%, rgba(120,95,60,.10), transparent 55%);
   }
-  .hero-badge { position: relative; text-align: center; padding-top: 22px; }
-  .hero-badge img { width: 72px; height: 72px; border-radius: 50%; object-fit: contain;
+  /* 宣纸纹理 */
+  .hero .paper { position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      radial-gradient(rgba(120,95,60,.07) 1px, transparent 1.2px),
+      radial-gradient(rgba(120,95,60,.04) 1px, transparent 1.6px);
+    background-size: 18px 18px, 31px 31px;
+    background-position: 0 0, 9px 9px; }
+  /* 金箔粒子 */
+  .hero .foil { position: absolute; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle, #e8cf8e, rgba(201,168,106,.15) 70%, transparent); }
+  .hero-badge { position: relative; text-align: center; padding-top: 30px; }
+  .hero-badge .crest { position: relative; display: inline-block; }
+  .hero-badge .crest::after { content: ""; position: absolute; inset: -7px; border: 1px solid rgba(201,168,106,.55); border-radius: 50%; }
+  .hero-badge .crest .corner { position: absolute; width: 14px; height: 14px; border: 1.5px solid #c9a86a; }
+  .hero-badge .crest .c1 { top: -12px; left: -12px; border-right: none; border-bottom: none; }
+  .hero-badge .crest .c2 { top: -12px; right: -12px; border-left: none; border-bottom: none; }
+  .hero-badge .crest .c3 { bottom: -12px; left: -12px; border-right: none; border-top: none; }
+  .hero-badge .crest .c4 { bottom: -12px; right: -12px; border-left: none; border-top: none; }
+  .hero-badge img { width: 80px; height: 80px; border-radius: 50%; object-fit: contain; position: relative;
     filter: drop-shadow(0 4px 14px rgba(74,64,50,.18)); }
-  .hero-nav { position: relative; display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  .hero-nav { position: relative; display: flex; justify-content: space-between; align-items: center; margin: 18px 40px 0; }
   .hero-logo { font-family: var(--serif); font-size: 15px; letter-spacing: 3px; color: var(--text); font-weight: 700; }
-  .hero-ver { font-size: 10px; letter-spacing: 3px; color: #9a8a6f; }
-  .hero-center { position: relative; text-align: center; padding-top: 22px; }
+  .hero-ver { font-size: 10px; letter-spacing: 3px; color: #a39179; }
+  .hero-center { position: relative; text-align: center; padding: 24px 24px 0; }
   .hero-kicker { font-family: var(--serif); font-size: 13px; letter-spacing: 8px; color: var(--red); }
-  .hero h1 { font-family: var(--serif); font-size: 40px; font-weight: 700; letter-spacing: 10px;
-    color: #2c2418; margin-top: 12px; text-indent: 10px; }
-  .hero .uibe-en { margin-top: 8px; font-family: Georgia, serif; font-size: 12px; letter-spacing: 6px;
+  .hero h1 { font-family: var(--serif); font-size: 52px; font-weight: 800; letter-spacing: 12px;
+    color: #262019; margin-top: 14px; text-indent: 12px; text-shadow: 0 1px 0 rgba(255,255,255,.6); }
+  .hero .uibe-en { margin-top: 8px; font-family: Georgia, serif; font-size: 12px; letter-spacing: 7px;
     color: #8f8066; text-transform: uppercase; }
-  .hero .hero-sub { margin-top: 14px; font-size: 13px; letter-spacing: 5px; color: #6d6150; }
+  .hero .gline { display: flex; align-items: center; gap: 10px; justify-content: center; margin-top: 18px; }
+  .hero .gline::before, .hero .gline::after { content: ""; width: 48px; height: 1px; background: #c9a86a; }
+  .hero .gline .dia { width: 6px; height: 6px; background: #c9a86a; transform: rotate(45deg); }
+  .hero .hero-sub { margin-top: 15px; font-size: 13px; letter-spacing: 5px; color: #6d6150; }
   .hero .hero-sub b { color: var(--red); font-weight: 400; }
-  .hero .hero-motto { margin-top: 16px; font-family: var(--serif); font-size: 14px; letter-spacing: 9px;
+  .hero .hero-motto { margin-top: 15px; font-family: var(--serif); font-size: 14px; letter-spacing: 10px;
     color: #4a4032; white-space: nowrap; }
-  .hero .hero-stats { display: flex; justify-content: center; margin-top: 16px; }
-  .hero .hstat { text-align: center; padding: 0 16px; }
-  .hero .hstat + .hstat { border-left: 1px solid rgba(74,64,50,.15); }
-  .hero .hstat b { display: block; font-family: Georgia, var(--serif), serif; font-size: 20px; color: var(--red); }
+  .hero .hero-stats { display: flex; justify-content: center; margin-top: 17px; }
+  .hero .hstat { text-align: center; padding: 0 15px; }
+  .hero .hstat + .hstat { border-left: 1px solid rgba(201,168,106,.4); }
+  .hero .hstat b { display: block; font-family: Georgia, var(--serif), serif; font-size: 20px; font-weight: 700; color: #8a6a2f; }
   .hero .hstat span { font-size: 10px; letter-spacing: 1px; color: #9a8a6f; }
-  .hero-cta { display: flex; gap: 12px; justify-content: center; margin-top: 20px; }
-  .hero-btn { font-size: 13px; letter-spacing: 2px; padding: 10px 28px; text-decoration: none; border-radius: 3px; }
-  .hero-btn.primary { background: var(--red); color: #f7f1e4; box-shadow: 0 6px 20px rgba(200,16,46,.25); }
-  .hero-btn.ghost { border: 1px solid #b3a688; color: #6d6150; }
-  .hero .countdown { margin-top: 16px; font-size: 11px; letter-spacing: 4px; color: #9a8a6f; }
-  .hero-mountains { position: relative; display: block; width: 100%; height: 44px; margin-top: 10px; opacity: .14; pointer-events: none; }
+  .hero-cta { display: flex; gap: 12px; justify-content: center; margin-top: 22px; }
+  .hero-btn { font-size: 13px; letter-spacing: 2px; padding: 11px 30px; text-decoration: none; border-radius: 2px; font-weight: 600; }
+  .hero-btn.primary { background: var(--red); color: #fdf6ea; box-shadow: 0 6px 20px rgba(200,16,46,.28); }
+  .hero-btn.ghost { border: 1px solid #c9a86a; color: #8a6a2f; background: rgba(255,253,249,.5); }
+  .hero .countdown { margin-top: 17px; font-size: 11px; letter-spacing: 4px; color: #a39179; }
+  /* 底部山景画卷 */
+  .hero .scene { position: relative; margin-top: 14px; height: 84px; pointer-events: none; }
+  .hero .scene .sun { position: absolute; left: 50%; top: 2px; transform: translateX(-50%);
+    width: 54px; height: 54px; border-radius: 50%;
+    background: radial-gradient(circle, #f6e7bd 0%, #e8cf8e 55%, rgba(232,207,142,.08) 78%);
+    opacity: .6; }
+  .hero .scene svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero-foot { position: relative; text-align: center; margin-top: 12px;
+    font-family: var(--serif); font-size: 10px; letter-spacing: 6px; color: #b3a688; }
 
   /* ===== 通用容器 ===== */
   .page { padding: 16px 14px; animation: fadeIn .25s ease; }
@@ -580,7 +607,17 @@ function pushMsgs(list) {
 function renderWelcome() {
   $app.innerHTML = `
     <div class="hero">
-      <div class="hero-badge"><img src="assets/uibe-logo.png" alt="对外经济贸易大学校徽"></div>
+      <div class="paper"></div>
+      <div class="foil" style="width:10px;height:10px;top:14%;left:10%;opacity:.8"></div>
+      <div class="foil" style="width:6px;height:6px;top:26%;left:78%;opacity:.6"></div>
+      <div class="foil" style="width:8px;height:8px;top:10%;right:14%;opacity:.7"></div>
+      <div class="foil" style="width:5px;height:5px;top:44%;left:18%;opacity:.5"></div>
+      <div class="foil" style="width:7px;height:7px;bottom:36%;left:26%;opacity:.5"></div>
+      <div class="foil" style="width:9px;height:9px;bottom:32%;right:20%;opacity:.6"></div>
+      <div class="hero-badge">
+        <div class="crest"><span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+          <img src="assets/uibe-logo.png" alt="对外经济贸易大学校徽"></div>
+      </div>
       <div class="hero-nav">
         <span class="hero-logo">贸大新生指南</span>
         <span class="hero-ver">丙午 · 2026 级</span>
@@ -589,6 +626,7 @@ function renderWelcome() {
         <div class="hero-kicker">对外经济贸易大学</div>
         <h1>新生指南</h1>
         <div class="uibe-en">UIBE GUIDE 2026</div>
+        <div class="gline"><span class="dia"></span></div>
         <div class="hero-sub">报到 <b>·</b> 军训 <b>·</b> 选课 <b>·</b> 生活 <b>·</b> 防骗</div>
         <div class="hero-motto">博学 诚信 求索 笃行</div>
         <div class="hero-stats">
@@ -602,10 +640,27 @@ function renderWelcome() {
           <a class="hero-btn ghost" href="#/ai">AI 百事通</a>
         </div>
         <div class="countdown">${countdownText()}</div>
+        <div class="scene">
+          <div class="sun"></div>
+          <svg viewBox="0 0 1440 84" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,50 L150,26 L300,46 L470,18 L640,44 L810,22 L980,46 L1160,28 L1320,46 L1440,34 L1440,84 L0,84 Z" fill="none" stroke="#c9a86a" stroke-width="1.4" opacity=".45"/>
+            <path d="M0,64 L120,42 L260,58 L420,36 L600,60 L780,40 L960,62 L1140,44 L1320,60 L1440,52 L1440,84 L0,84 Z" fill="#c9a86a" opacity=".3"/>
+            <path d="M0,84 L100,60 L220,78 L380,52 L540,80 L700,62 L860,82 L1020,66 L1180,84 L1340,70 L1440,82 L1440,84 Z" fill="#8a6a2f" opacity=".55"/>
+            <g stroke="#c9a86a" stroke-width="1.4" opacity=".4" stroke-linecap="round">
+              <path d="M80,72 Q130,68 180,72"/>
+              <path d="M420,74 Q470,70 520,74"/>
+              <path d="M920,73 Q970,69 1020,73"/>
+              <path d="M1240,75 Q1290,71 1340,75"/>
+            </g>
+            <circle cx="250" cy="46" r="2.6" fill="#e8cf8e"/>
+            <circle cx="520" cy="32" r="2.2" fill="#e8cf8e"/>
+            <circle cx="960" cy="40" r="2.6" fill="#e8cf8e"/>
+            <circle cx="1250" cy="50" r="2.2" fill="#e8cf8e"/>
+            <circle cx="700" cy="66" r="2" fill="#e8cf8e"/>
+          </svg>
+        </div>
+        <div class="hero-foot">一页读懂你的开学季</div>
       </div>
-      <svg class="hero-mountains" viewBox="0 0 1440 180" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0,180 L180,80 L320,150 L500,50 L680,140 L860,70 L1040,150 L1240,60 L1440,130 L1440,180 Z" fill="#5a4a2e"/>
-      </svg>
     </div>`;
 }
 
