@@ -57,10 +57,11 @@
   ]
 }
 </script>
-<script src="data-guides.js?v=18"></script>
-<script src="data-faq.js?v=18"></script>
-<script src="data-contacts.js?v=18"></script>
-<script src="data-wechat.js?v=18"></script>
+<script src="data-guides.js?v=19"></script>
+<script src="data-faq.js?v=19"></script>
+<script src="data-contacts.js?v=19"></script>
+<script src="data-wechat.js?v=19"></script>
+<script src="data-sites.js?v=19"></script>
 <style>
   /* 楷体网页字体(霞鹜文楷子集, 保证手机/电脑渲染一致) */
   @font-face {
@@ -481,6 +482,32 @@
   }
   .wechat-card .w-copy:active { background: var(--red); color: #fff; }
 
+  /* ===== 网址导航 ===== */
+  .site-card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 14px 16px; margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(90,60,40,.06);
+  }
+  .site-card h3 { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+  .site-card .site-url {
+    margin-top: 6px; font-size: 13px; font-weight: 600; color: var(--red);
+    word-break: break-all;
+  }
+  .site-card .s-desc { margin-top: 5px; font-size: 13px; line-height: 1.8; color: var(--text); }
+  .site-card .s-actions { margin-top: 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .site-card .s-open {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--red); color: #fff; border-radius: 16px;
+    padding: 5px 14px; font-size: 12px; font-weight: 600; text-decoration: none;
+  }
+  .site-card .s-open:active { opacity: .85; }
+  .site-card .s-copy {
+    display: inline-flex; align-items: center; gap: 4px;
+    border: 1.5px solid var(--red); color: var(--red); background: #fff;
+    border-radius: 16px; padding: 5px 14px; font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  .site-card .s-copy:active { background: var(--red); color: #fff; }
+
   /* ===== Toast 提示 ===== */
   #toast {
     position: fixed; bottom: 84px; left: 50%; transform: translate(-50%, 12px);
@@ -518,7 +545,7 @@
 
 <script>
 // ================= 版本 =================
-const APP_VERSION = 'v18'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
+const APP_VERSION = 'v19'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
 
 // ================= 状态 =================
 const store = {
@@ -679,6 +706,7 @@ function renderHome() {
     { ico: "🗺️", name: "校园地图", desc: "官方校园地图，放大查看，报到不迷路", to: "#/map" },
     { ico: "📞", name: "院系联系", desc: `${CONTACTS.length} 个院系官方电话/邮箱，一键拨打`, to: "#/contacts" },
     { ico: "📱", name: "公众号大全", desc: `${WECHAT.length} 个官方公众号，复制名称去微信搜`, to: "#/wechat" },
+    { ico: "🌐", name: "网址导航", desc: `${SITES.flatMap(g => g.items).length} 个常用网站，i惠园/教务/缴费一站查`, to: "#/sites" },
     { ico: "🤖", name: "AI 百事通", desc: "AI 实时思考，贸大问题随问随答", to: "#/ai" },
     { ico: "🛡️", name: "防骗手册", desc: "开学季 5 大骗局全拆解", to: "#/guides?cat=防骗" },
   ];
@@ -846,6 +874,50 @@ function doWechatSearch() {
   const v = document.getElementById('wSearch').value;
   wechatSearch = v;
   renderWechat(route[1] && route[1] !== '全部' ? route[1] : '全部', v);
+}
+
+// ================= 网址导航 =================
+let sitesSearch = '';
+function renderSites(cat, kw) {
+  const searchKw = (kw !== undefined ? kw : sitesSearch).trim();
+  let list = SITES;
+  if (cat && cat !== '全部') list = list.filter(g => g.cat === cat);
+  let flat = list.flatMap(g => g.items.map(it => ({ ...it, cat: g.cat })));
+  if (searchKw) flat = flat.filter(s => (s.name + ' ' + (s.url || '') + ' ' + s.desc).includes(searchKw));
+  const cats = ['全部', ...SITES.map(g => g.cat)];
+  const searching = !!(searchKw || (cat && cat !== '全部'));
+  $app.innerHTML = `
+    <div class="page">
+      <button class="back-btn" onclick="go('#/home')">← 返回</button>
+      <div class="page-title">🌐 网址导航 <span class="sub">${SITES.flatMap(g => g.items).length} 个常用网站</span></div>
+      <div class="search-box">
+        <input id="sSearch" placeholder="🔍 搜网站，如：教务、缴费、VPN" value="${esc(searchKw)}" maxlength="30" onkeydown="if(event.key==='Enter'&&!event.isComposing)doSitesSearch()">
+        <button onclick="doSitesSearch()">搜索</button>
+      </div>
+      ${searching ? `<div class="result-tip">找到 ${flat.length} 个相关网站</div>` : ''}
+      <div class="chips">
+        ${cats.map(c => `<button type="button" class="chip${c === (cat || '全部') ? ' on' : ''}" onclick="sitesSearch='';go('#/sites?cat=${encodeURIComponent(c)}')">${c}</button>`).join('')}
+      </div>
+      ${flat.map(s => `
+        <div class="site-card">
+          <h3><span class="w-cat">${esc(s.cat)}</span> ${highlight(s.name, searchKw)}</h3>
+          ${s.url ? `<div class="site-url">🔗 ${highlight(s.url, searchKw)}</div>` : ''}
+          <div class="s-desc">${highlight(s.desc, searchKw)}</div>
+          ${s.url ? `
+          <div class="s-actions">
+            <a class="s-open" href="https://${s.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">打开网站 ↗</a>
+            <button type="button" class="s-copy" onclick="copyText('${esc(s.url)}')">📋 复制网址</button>
+          </div>` : ''}
+        </div>`).join('')}
+      ${flat.length === 0 ? '<div class="muted-tip">没有找到相关网站，换个关键词试试～</div>' : ''}
+      <div class="muted-tip">来源：校学生会权益部《在贸大学习，你需要的网址都在这里！》（2026年8月）<br>密码信息如有变动，以学校最新通知为准</div>
+    </div>`;
+}
+
+function doSitesSearch() {
+  const v = document.getElementById('sSearch').value;
+  sitesSearch = v;
+  renderSites(route[1] && route[1] !== '全部' ? route[1] : '全部', v);
 }
 
 function renderCheck() {
@@ -1144,6 +1216,7 @@ function render() {
   else if (top === 'map') renderMap();
   else if (top === 'contacts') renderContacts();
   else if (top === 'wechat') renderWechat(params.get('cat') || '全部');
+  else if (top === 'sites') renderSites(params.get('cat') || '全部');
   else renderHome();
   const tabs = [
     { r: 'home', ico: '🏠', name: '首页' },
