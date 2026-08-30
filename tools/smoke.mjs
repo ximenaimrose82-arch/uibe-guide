@@ -15,15 +15,18 @@ let faqCode = readFileSync(join(root, 'data-faq.js'), 'utf8').replace(/^const (F
 let guidesCode = readFileSync(join(root, 'data-guides.js'), 'utf8').replace(/^const (FAQ|GUIDES) = /m, 'globalThis.$1 = ');
 let contactsCode = readFileSync(join(root, 'data-contacts.js'), 'utf8').replace(/^const (FAQ|GUIDES|CONTACTS) = /m, 'globalThis.$1 = ');
 let wechatCode = readFileSync(join(root, 'data-wechat.js'), 'utf8').replace(/^const (FAQ|GUIDES|CONTACTS|WECHAT) = /m, 'globalThis.$1 = ');
+let sitesCode = readFileSync(join(root, 'data-sites.js'), 'utf8').replace(/^const (FAQ|GUIDES|CONTACTS|WECHAT|SITES) = /m, 'globalThis.$1 = ');
 (0, eval)(faqCode);
 (0, eval)(guidesCode);
 (0, eval)(contactsCode);
 (0, eval)(wechatCode);
+(0, eval)(sitesCode);
 
 const FAQ = globalThis.FAQ;
 const GUIDES = globalThis.GUIDES;
 const CONTACTS = globalThis.CONTACTS;
 const WECHAT = globalThis.WECHAT;
+const SITES = globalThis.SITES;
 
 let problems = 0;
 FAQ.forEach((f, i) => {
@@ -48,6 +51,17 @@ CONTACTS.forEach((c, i) => {
   }
 });
 console.log(`数据完整性: FAQ=${FAQ.length} 条, GUIDES=${GUIDES.length} 篇, CONTACTS=${CONTACTS.length} 条, WECHAT=${WECHAT.length} 条, 问题数=${problems}`);
+
+// ---- 1.5 网址导航数据 (v19) ----
+if (SITES) {
+  SITES.forEach((g, i) => {
+    if (!g.cat || !Array.isArray(g.items) || g.items.length === 0) { console.log(`SITES[${i}] 缺少字段`, g); problems++; }
+    g.items.forEach((it, j) => {
+      if (!it.name || !it.desc) { console.log(`SITES[${i}].items[${j}] 缺少 name/desc`, it); problems++; }
+    });
+  });
+  console.log(`数据完整性: SITES=${SITES.flatMap(g => g.items).length} 个网站 (${SITES.length} 组), 问题数=${problems}`);
+}
 
 // ---- 2. 加载 index.html 的主脚本(最后一个无 src 的 <script>) ----
 const html = readFileSync(join(root, 'index.html'), 'utf8');

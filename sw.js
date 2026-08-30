@@ -1,26 +1,27 @@
 // ============================================================
 // 贸大新生指南 · Service Worker (离线可用 + 资源缓存)
 // 策略: 导航请求网络优先(保证更新及时), 静态资源缓存优先
-// 改版时: 更新 CACHE 名(如 v10 → v11), 旧缓存自动清理
+// 改版时: 更新 CACHE 名(如 v19 → v20), 旧缓存自动清理
 // ============================================================
-const CACHE = 'uibe-guide-v19';
+const CACHE = 'uibe-guide-v20';
 
 // 安装时预缓存应用外壳(数据文件带版本号, 改版即失效)
+// 注意: 校园地图(329KB)不做预缓存, 用户首次打开 #/map 时由 fetch 处理器
+//       按需缓存(缓存优先策略), 避免首访白下载大图 (P0 性能优化)
 const ASSETS = [
   './',
   './index.html',
-  './data-guides.js?v=19',
-  './data-faq.js?v=19',
-  './data-contacts.js?v=19',
-  './data-wechat.js?v=19',
-  './data-sites.js?v=19',
+  './data-guides.js?v=20',
+  './data-faq.js?v=20',
+  './data-contacts.js?v=20',
+  './data-wechat.js?v=20',
+  './data-sites.js?v=20',
   './manifest.webmanifest',
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/uibe-logo.png',
   './assets/fonts/uibe-kaiti.woff2',
   './share.png',
-  './assets/uibe-campus-map.jpg',
 ];
 
 self.addEventListener('install', (e) => {

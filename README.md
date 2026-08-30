@@ -79,7 +79,7 @@ npx wrangler deploy        # 使用 wrangler.toml
 - **攻略**：编辑 `data-guides.js`，按现有格式加一条 `{ cat, icon, title, body }`；
 - **问答**：编辑 `data-faq.js`，加 `{ q, kws, a }`，`kws` 是触发关键词；
 - **院系联系方式**：编辑 `data-contacts.js`，加 `{ name, phone, email, location, site, source }`；电话/邮箱必须是官网页面实际标注，查不到标「待补充」，并给出 `source`（来源页面 URL）；
-- **改版发布**：把 `index.html` 里的 `APP_VERSION` 和三个数据文件 `?v=` 号 +1，同时把 `sw.js` 顶部的缓存名 `uibe-guide-v11` 也 +1，避免老用户拿到旧缓存。
+- **改版发布**：把 `index.html` 里的 `APP_VERSION` 和数据文件 `?v=` 号 +1，同时把 `sw.js` 顶部的缓存名 `uibe-guide-v20` 也 +1，避免老用户拿到旧缓存。
 
 ## 🖼️ 重新生成图片
 

@@ -34,6 +34,8 @@
 <link rel="preconnect" href="https://uibe-ai-proxy.ximenaimrose82.workers.dev">
 <link rel="dns-prefetch" href="https://1476579079-52r3nccknz.ap-guangzhou.tencentscf.com">
 <link rel="dns-prefetch" href="https://uibe-ai-proxy.ximenaimrose82.workers.dev">
+<!-- 预加载首屏 LCP 校徽图(欢迎页门面第一屏), 缩短最大内容绘制(LCP)时间 -->
+<link rel="preload" as="image" href="assets/uibe-logo.png" fetchpriority="high">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -57,11 +59,7 @@
   ]
 }
 </script>
-<script src="data-guides.js?v=19"></script>
-<script src="data-faq.js?v=19"></script>
-<script src="data-contacts.js?v=19"></script>
-<script src="data-wechat.js?v=19"></script>
-<script src="data-sites.js?v=19"></script>
+<!-- 数据文件(data-*.js)已移至 body 末尾加载, 避免阻塞首屏解析/渲染 (P0 性能优化) -->
 <style>
   /* 楷体网页字体(霞鹜文楷子集, 保证手机/电脑渲染一致) */
   @font-face {
@@ -77,7 +75,7 @@
     --bg: #f7f1e4;
     --card: #fffdf9;
     --text: #3a3226;
-    --muted: #9a8a6f;
+    --muted: #6f6558;   /* P0 无障碍: 原 #9a8a6f 对比度仅 3.0~3.3:1, 加深后 ≥4.5:1 (WCAG AA) */
     --gold: #b3a688;
     --green: #4a8c5c;
     --radius: 12px;
@@ -132,7 +130,7 @@
     filter: drop-shadow(0 4px 14px rgba(74,64,50,.18)); }
   .hero-nav { position: relative; display: flex; justify-content: space-between; align-items: center; margin: 18px 40px 0; }
   .hero-logo { font-family: var(--serif); font-size: 15px; letter-spacing: 3px; color: var(--text); font-weight: 700; }
-  .hero-ver { font-size: 10px; letter-spacing: 3px; color: #a39179; }
+  .hero-ver { font-size: 10px; letter-spacing: 3px; color: var(--muted); }
   .hero-center { position: relative; text-align: center; padding: 24px 24px 0; }
   .hero-kicker { font-family: var(--serif); font-size: 13px; letter-spacing: 8px; color: var(--red); }
   .hero h1 { font-family: "LXGW WenKai", "KaiTi", "STKaiti", "楷体", var(--serif); font-size: 52px; font-weight: 700; letter-spacing: 12px;
@@ -146,17 +144,17 @@
   .hero .hero-sub b { color: var(--red); font-weight: 400; }
   .hero .hero-motto { margin-top: 15px; font-family: "LXGW WenKai", var(--serif); font-size: 14px; letter-spacing: 10px;
     color: #4a4032; white-space: nowrap; }
-  .hero .quote { margin-top: 10px; font-family: "LXGW WenKai", var(--serif); font-size: 11px; letter-spacing: 5px; color: #a39179; }
+  .hero .quote { margin-top: 10px; font-family: "LXGW WenKai", var(--serif); font-size: 11px; letter-spacing: 5px; color: var(--muted); }
   .hero .hero-stats { display: flex; justify-content: center; margin-top: 17px; }
   .hero .hstat { text-align: center; padding: 0 15px; }
   .hero .hstat + .hstat { border-left: 1px solid rgba(201,168,106,.4); }
   .hero .hstat b { display: block; font-family: Georgia, var(--serif), serif; font-size: 20px; font-weight: 700; color: #8a6a2f; }
-  .hero .hstat span { font-size: 10px; letter-spacing: 1px; color: #9a8a6f; }
+  .hero .hstat span { font-size: 10px; letter-spacing: 1px; color: var(--muted); }
   .hero-cta { display: flex; gap: 12px; justify-content: center; margin-top: 22px; }
   .hero-btn { font-size: 13px; letter-spacing: 2px; padding: 11px 30px; text-decoration: none; border-radius: 2px; font-weight: 600; }
   .hero-btn.primary { background: var(--red); color: #fdf6ea; box-shadow: 0 6px 20px rgba(200,16,46,.28); }
   .hero-btn.ghost { border: 1px solid #c9a86a; color: #8a6a2f; background: rgba(255,253,249,.5); }
-  .hero .countdown { margin-top: 17px; font-size: 11px; letter-spacing: 4px; color: #a39179; }
+  .hero .countdown { margin-top: 17px; font-size: 11px; letter-spacing: 4px; color: var(--muted); }
   /* 底部山景画卷 */
   .hero .scene { position: relative; margin-top: 14px; height: 84px; pointer-events: none; }
   .hero .scene .sun { position: absolute; left: 50%; top: 2px; transform: translateX(-50%);
@@ -165,7 +163,7 @@
     opacity: .6; }
   .hero .scene svg { position: absolute; inset: 0; width: 100%; height: 100%; }
   .hero-foot { position: relative; text-align: center; margin-top: 12px;
-    font-family: var(--serif); font-size: 10px; letter-spacing: 6px; color: #b3a688; }
+    font-family: var(--serif); font-size: 10px; letter-spacing: 6px; color: var(--muted); }
 
   /* ===== 通用容器 ===== */
   .page { padding: 16px 14px; animation: fadeIn .25s ease; }
@@ -219,7 +217,7 @@
   }
   .home-head .hh-logo { width: 34px; height: 34px; border-radius: 50%; object-fit: contain; }
   .home-head .hh-name { font-family: var(--serif); font-size: 15px; font-weight: 700; letter-spacing: 2px; color: var(--text); }
-  .home-head .hh-ver { margin-left: auto; font-size: 10px; letter-spacing: 2px; color: #9a8a6f; }
+  .home-head .hh-ver { margin-left: auto; font-size: 10px; letter-spacing: 2px; color: var(--muted); }
 
   /* ===== 报到清单 ===== */
   .check-group {
@@ -436,13 +434,23 @@
     width: 32px; height: 32px; border-radius: 50%; font-size: 16px;
     cursor: pointer; flex-shrink: 0;
   }
+  .lb-zoom { display: flex; align-items: center; gap: 5px; }
+  .lb-zoom-btn {
+    border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.12); color: #fff;
+    min-width: 30px; height: 30px; border-radius: 8px; font-size: 15px;
+    cursor: pointer; padding: 0 6px; line-height: 1;
+  }
+  .lb-zoom-btn:active { background: rgba(255,255,255,.28); }
+  .lb-zoom-label { font-size: 11px; color: rgba(255,255,255,.75); min-width: 40px; text-align: center; font-variant-numeric: tabular-nums; }
   .lightbox-body {
     flex: 1; overflow: auto; -webkit-overflow-scrolling: touch;
     display: flex; align-items: flex-start; justify-content: center;
     overscroll-behavior: contain;
+    touch-action: manipulation; /* 关闭双击页面缩放, 让双击=放大地图 */
   }
   .lightbox-body img {
     max-width: none; width: auto; height: auto;
+    flex-shrink: 0; /* 防止 flex 容器把缩放后的宽度压回原图宽(缩放失效) */
     transform-origin: top left;
   }
   .lightbox-foot { color: rgba(255,255,255,.7); font-size: 11px; text-align: center; padding: 8px; flex-shrink: 0; }
@@ -523,16 +531,23 @@
 </style>
 </head>
 <body>
-<div id="app"></div>
+<main id="app"></main>
 <nav class="tabbar" id="tabbar" aria-label="主导航"></nav>
 <div id="toast" role="status" aria-live="polite"></div>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="校园地图大图">
   <div class="lightbox-head">
-    <span>校园地图 · 双指缩放 / 拖动查看</span>
+    <span>校园地图 · 拖动 / 双击 / 按钮缩放</span>
+    <span class="lb-zoom">
+      <button type="button" class="lb-zoom-btn" onclick="lbZoom(-1)" aria-label="缩小">−</button>
+      <span class="lb-zoom-label" id="lbZoomLabel">100%</span>
+      <button type="button" class="lb-zoom-btn" onclick="lbZoom(1)" aria-label="放大">＋</button>
+      <button type="button" class="lb-zoom-btn" onclick="lbZoom(0)" aria-label="重置缩放">1:1</button>
+    </span>
     <button type="button" class="lightbox-close" onclick="closeLightbox()" aria-label="关闭大图">✕</button>
   </div>
   <div class="lightbox-body" onclick="if(event.target===this)closeLightbox()">
-    <img src="assets/uibe-campus-map.jpg" alt="对外经济贸易大学校园地图（大图）">
+    <!-- data-src: 首访不下载 329KB 地图, 打开大图时才加载 (P0 性能优化) -->
+    <img data-src="assets/uibe-campus-map.jpg" alt="对外经济贸易大学校园地图（大图）">
   </div>
   <div class="lightbox-foot">来源：<a href="https://www.uibe.edu.cn/xywh/xxdt/index.htm" target="_blank" rel="noopener">贸大官网 · 学校地图</a>（2026年3月更新版）</div>
 </div>
@@ -543,9 +558,14 @@
   </div>
 </noscript>
 
+<script src="data-guides.js?v=20"></script>
+<script src="data-faq.js?v=20"></script>
+<script src="data-contacts.js?v=20"></script>
+<script src="data-wechat.js?v=20"></script>
+<script src="data-sites.js?v=20"></script>
 <script>
 // ================= 版本 =================
-const APP_VERSION = 'v19'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
+const APP_VERSION = 'v20'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
 
 // ================= 状态 =================
 const store = {
@@ -651,7 +671,7 @@ function renderWelcome() {
       <div class="foil" style="width:9px;height:9px;bottom:32%;right:20%;opacity:.6"></div>
       <div class="hero-badge">
         <div class="crest"><span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
-          <img src="assets/uibe-logo.png" alt="对外经济贸易大学校徽"></div>
+          <img src="assets/uibe-logo.png" alt="对外经济贸易大学校徽" fetchpriority="high"></div>
       </div>
       <div class="hero-nav">
         <span class="hero-logo">贸大新生指南</span>
@@ -759,15 +779,76 @@ function renderMap() {
     </div>`;
 }
 
+// ================= 地图 Lightbox (缩放: 按钮 / 双击 / 拖动) =================
+// 实现方式: 修改 <img> 宽度实现缩放(1x=原图宽), 外层滚动容器天然支持拖动;
+// 缩放时按当前视野中心为锚点, 避免放大后视角跳走
+let lbScale = 1;     // 当前倍率 1~4
+let lbBaseW = 0;     // 原图宽度(px), 首次打开时读取
+let lbTapT = 0, lbTapX = 0, lbTapY = 0; // 双击检测
+
+function lbImg() { const lb = document.getElementById('lightbox'); return lb ? lb.querySelector('img') : null; }
+function lbBody() { const lb = document.getElementById('lightbox'); return lb ? lb.querySelector('.lightbox-body') : null; }
+
+function lbApply(scale, anchor) {
+  const img = lbImg(), body = lbBody();
+  if (!img || !body) return;
+  lbScale = Math.min(4, Math.max(1, scale));
+  // 锚点: 默认视野中心; 传入 clientX/clientY(双击位置) 时保持该屏幕点不动
+  const rect = body.getBoundingClientRect();
+  const ax = (anchor ? anchor.x : rect.width / 2) - rect.left;
+  const ay = (anchor ? anchor.y : rect.height / 2) - rect.top;
+  // 记录锚点在图片上的比例位置, 改宽后按同比例恢复
+  const fx = (body.scrollLeft + ax) / (img.clientWidth || 1);
+  const fy = (body.scrollTop + ay) / (img.clientHeight || 1);
+  img.style.width = Math.round(lbBaseW * lbScale) + 'px';
+  body.scrollLeft = fx * img.clientWidth - ax;
+  body.scrollTop = fy * img.clientHeight - ay;
+  const label = document.getElementById('lbZoomLabel');
+  if (label) label.textContent = Math.round(lbScale * 100) + '%';
+}
+
+// 按钮缩放: dir=1 放大 / -1 缩小 / 0 重置
+function lbZoom(dir) {
+  const steps = [1, 1.5, 2, 2.5, 3, 4];
+  let target;
+  if (dir === 0) target = 1;
+  else if (dir > 0) target = steps.find(s => s > lbScale + 0.01) || 4;
+  else target = [...steps].reverse().find(s => s < lbScale - 0.01) || 1;
+  lbApply(target);
+}
+
+// 双击: 在 1x 与 2x 之间切换, 以点击位置为锚点(300ms 内、位移 <30px 判定为双击)
+function lbOnTap(e) {
+  const now = Date.now();
+  const dx = e.clientX - lbTapX, dy = e.clientY - lbTapY;
+  if (now - lbTapT < 300 && dx * dx + dy * dy < 900) {
+    lbApply(lbScale > 1.01 ? 1 : 2, { x: e.clientX, y: e.clientY });
+    lbTapT = 0;
+  } else {
+    lbTapT = now; lbTapX = e.clientX; lbTapY = e.clientY;
+  }
+}
+
 function openLightbox() {
   const lb = document.getElementById('lightbox');
   if (!lb) return;
   lb.classList.add('open');
   document.body.style.overflow = 'hidden';
-  // 初始水平居中显示(地图中部的教学区), 用户可双指缩放/拖动
+  const img = lb.querySelector('img');
+  if (img && !img.src) {
+    // 延迟加载: 首次打开大图时才设置 src (data-src 占位, 避免首访下载 329KB)
+    img.src = img.dataset.src || 'assets/uibe-campus-map.jpg';
+    img.addEventListener('load', () => {
+      lbBaseW = img.naturalWidth || 1600;
+      lbApply(lbScale); // 图片就绪后按当前倍率重排(首次打开倍率=1, 无视觉跳变)
+    }, { once: true });
+  }
+  if (!lbBaseW) lbBaseW = (img && img.naturalWidth) || 1600;
+  lbApply(1); // 每次打开重置缩放
+  // 初始水平居中显示(地图中部的教学区), 用户可拖动/缩放查看
   const body = lb.querySelector('.lightbox-body');
   requestAnimationFrame(() => {
-    body.scrollLeft = (body.scrollWidth - body.clientWidth) / 2;
+    if (body) body.scrollLeft = (body.scrollWidth - body.clientWidth) / 2;
   });
   const close = lb.querySelector('.lightbox-close');
   if (close) close.focus();
@@ -1234,6 +1315,10 @@ function render() {
 window.addEventListener('hashchange', render);
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 render();
+
+// Lightbox 双击缩放: lightbox 是静态节点, 只需绑定一次(单击/拖动不受影响)
+const _lbBodyEl = lbBody();
+if (_lbBodyEl) _lbBodyEl.addEventListener('pointerup', lbOnTap);
 
 // ================= 离线可用 (Service Worker) =================
 // 仅 HTTPS 环境注册, 本地 http 预览不会触发
