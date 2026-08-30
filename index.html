@@ -174,9 +174,14 @@
   .hero-ver { font-size: 10px; letter-spacing: 3px; color: var(--muted); }
   .hero-center { position: relative; text-align: center; padding: 24px 24px 0; }
   .hero-kicker { font-family: var(--serif); font-size: 13px; letter-spacing: 8px; color: var(--red); }
-  /* v21: 标题 52→58px, 更大气 */
+  /* v21: 标题 52→58px, 更大气; nowrap 保证「新生指南」窄屏也单行不折行 */
   .hero h1 { font-family: "LXGW WenKai", "KaiTi", "STKaiti", "楷体", var(--serif); font-size: 58px; font-weight: 700; letter-spacing: 14px;
-    color: #201a12; margin-top: 14px; text-indent: 14px; text-shadow: 0 1px 0 rgba(255,255,255,.6); }
+    color: #201a12; margin-top: 14px; text-indent: 14px; text-shadow: 0 1px 0 rgba(255,255,255,.6); white-space: nowrap; }
+  /* v21: 窄屏(≤370px)缩小标题字号/字距, 避免折行溢出 */
+  @media (max-width: 370px) {
+    .hero h1 { font-size: 50px; letter-spacing: 8px; text-indent: 8px; }
+    .hero-center { padding-left: 14px; padding-right: 14px; }
+  }
   .hero .uibe-en { margin-top: 8px; font-family: Georgia, serif; font-size: 12px; letter-spacing: 7px;
     color: var(--gold-deep); text-transform: uppercase; }
   /* v21: 金线渐变分隔 */
