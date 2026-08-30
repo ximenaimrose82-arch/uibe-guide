@@ -193,8 +193,8 @@
   .hero .hero-sub b { color: var(--red); font-weight: 400; }
   .hero .hero-motto { margin-top: 15px; font-family: "LXGW WenKai", var(--serif); font-size: 14px; letter-spacing: 10px;
     color: #3d3428; white-space: nowrap; }
-  /* v21: 卷首语(替代原引句) */
-  .hero .to-new { margin-top: 10px; font-family: "LXGW WenKai", var(--serif); font-size: 11px; letter-spacing: 4px; color: var(--gold-deep); }
+  /* v21: 卷首语(替代原引句), nowrap+紧凑字距保证单行不折行 */
+  .hero .to-new { margin-top: 10px; font-family: "LXGW WenKai", var(--serif); font-size: 11px; letter-spacing: 2px; color: var(--gold-deep); white-space: nowrap; }
   .hero .hero-stats { display: flex; justify-content: center; margin-top: 17px; }
   .hero .hstat { text-align: center; padding: 0 16px; }
   .hero .hstat + .hstat { border-left: 1px solid var(--gold-line); }
@@ -828,7 +828,6 @@ function renderWelcome() {
         <div class="hero-stats rise r4">
           <div class="hstat"><b data-count="${FAQ.length}">0</b><span>常见问答</span></div>
           <div class="hstat"><b data-count="${GUIDES.length}">0</b><span>篇攻略</span></div>
-          <div class="hstat"><b data-count="${WECHAT.length}">0</b><span>公众号</span></div>
         </div>
         <div class="hero-cta rise r5">
           <a class="hero-btn primary" href="#/home">开始使用</a>
