@@ -6,7 +6,7 @@
 <title>贸大新生指南 · UIBE Guide 2026</title>
 <meta name="description" content="对外经济贸易大学2026级新生入学指南：报到流程、军训攻略、选课技巧、宿舍食堂、防骗手册，还有AI百事通智能问答（实时思考），手机点开即用。">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#c8102e">
+<meta name="theme-color" content="#a9202e">
 <link rel="canonical" href="https://ximenaimrose82-arch.github.io/uibe-guide/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="assets/icon-180.png">
@@ -69,24 +69,33 @@
     font-weight: 400;
   }
   :root {
-    --red: #c8102e;
-    --red-dark: #9e0d25;
+    --red: #a9202e;          /* 朱砂红 (v21: 原 #c8102e, 更沉稳大气) */
+    --red-dark: #7e1520;
     --red-light: #fdeef0;
-    --bg: #f7f1e4;
-    --card: #fffdf9;
-    --text: #3a3226;
-    --muted: #6f6558;   /* P0 无障碍: 原 #9a8a6f 对比度仅 3.0~3.3:1, 加深后 ≥4.5:1 (WCAG AA) */
-    --gold: #b3a688;
+    --bg: #f6f0e2;           /* 宣纸底色 (v21) */
+    --card: #fbf6ea;
+    --text: #2c251b;         /* 墨色正文 */
+    --muted: #6f6558;        /* P0 无障碍: ≥4.5:1 (WCAG AA) */
+    --gold: #c2a15e;         /* 鎏金 (v21: 原 #b3a688 偏灰) */
+    --gold-deep: #7d5c22;    /* 深鎏金(文字用, 纸面 5.4:1 ≥ AA 4.5) */
+    --gold-line: rgba(194,161,94,.42);
     --green: #4a8c5c;
-    --radius: 12px;
+    --radius: 16px;          /* v21: 12→16 更圆润大气 */
     --serif: "Noto Serif SC", "Songti SC", SimSun, "Microsoft YaHei", serif;
+    --serif-body: "Noto Serif SC", "Source Han Serif SC", "STSong", "SimSun", serif; /* 长文宋体(v21) */
     color-scheme: light;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html { scrollbar-gutter: stable; }
+  html {
+    scrollbar-gutter: stable;
+    /* v21 桌面端: 深墨色环境背景, 中央宣纸内容浮起 */
+    background: radial-gradient(1100px 620px at 50% -8%, #3a2c1a 0%, #17120d 48%, #241c12 100%);
+  }
   body {
     font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: var(--bg);
+    /* v21: 宣纸噪点纹理(SVG data-URI, 无图片请求) */
+    background-color: var(--bg);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.38 0 0 0 0 0.28 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
     color: var(--text);
     max-width: 480px;
     margin: 0 auto;
@@ -94,6 +103,33 @@
     min-height: 100dvh;
     position: relative;
     padding-bottom: 68px;
+  }
+  /* v21 桌面端: 内容柱浮起 + 竖排水印(≥900px 才显示) */
+  @media (min-width: 900px) {
+    body {
+      margin: 44px auto 88px;
+      min-height: calc(100dvh - 132px);
+      border-radius: 26px;
+      box-shadow: 0 40px 90px rgba(0,0,0,.5), 0 0 0 1px rgba(226,200,150,.22) inset, 0 1px 0 rgba(255,255,255,.3) inset;
+    }
+    body::after {
+      content: "贸大新生指南 · UIBE GUIDE";
+      position: fixed; top: 50%; left: calc(50% - 388px); transform: translateY(-50%);
+      writing-mode: vertical-rl;
+      font-family: "LXGW WenKai", "KaiTi", "楷体", serif;
+      font-size: 16px; letter-spacing: 14px;
+      color: rgba(216,194,150,.14);
+      pointer-events: none; z-index: 0;
+    }
+    body::before {
+      content: "UIBE GUIDE · 2026";
+      position: fixed; top: 50%; right: calc(50% - 388px); transform: translateY(-50%);
+      writing-mode: vertical-rl;
+      font-family: Georgia, serif;
+      font-size: 13px; letter-spacing: 10px;
+      color: rgba(216,194,150,.10);
+      pointer-events: none; z-index: 0;
+    }
   }
   button { font-family: inherit; }
   :focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 6px; }
@@ -106,64 +142,107 @@
   }
   .hero::before {
     content: ""; position: absolute; inset: 0; pointer-events: none;
-    background: radial-gradient(ellipse 120% 80% at 50% -10%, rgba(120,95,60,.10), transparent 55%);
+    background: radial-gradient(ellipse 120% 80% at 50% -10%, rgba(143,107,41,.10), transparent 55%);
   }
-  /* 宣纸纹理 */
+  /* 宣纸金箔点 */
   .hero .paper { position: absolute; inset: 0; pointer-events: none;
     background-image:
-      radial-gradient(rgba(120,95,60,.07) 1px, transparent 1.2px),
-      radial-gradient(rgba(120,95,60,.04) 1px, transparent 1.6px);
+      radial-gradient(rgba(143,107,41,.06) 1px, transparent 1.2px),
+      radial-gradient(rgba(143,107,41,.03) 1px, transparent 1.6px);
     background-size: 18px 18px, 31px 31px;
     background-position: 0 0, 9px 9px; }
   /* 金箔粒子 */
   .hero .foil { position: absolute; border-radius: 50%; pointer-events: none;
-    background: radial-gradient(circle, #e8cf8e, rgba(201,168,106,.15) 70%, transparent); }
+    background: radial-gradient(circle, #ecd396, rgba(201,168,106,.2) 70%, transparent); }
   .hero-badge { position: relative; text-align: center; padding-top: 30px; }
   .hero-badge .crest { position: relative; display: inline-block; }
-  .hero-badge .crest::after { content: ""; position: absolute; inset: -5px; border: 1px solid rgba(201,168,106,.55); border-radius: 50%; }
-  .hero-badge .crest .corner { position: absolute; width: 13px; height: 13px; border: 1.5px solid #c9a86a; }
+  /* v21: 鎏金双层光圈 + 光晕 */
+  .hero-badge .crest::after {
+    content: ""; position: absolute; inset: -6px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--gold-line), 0 0 0 6px rgba(194,161,94,.14), 0 0 22px rgba(194,161,94,.38);
+  }
+  .hero-badge .crest .corner { position: absolute; width: 14px; height: 14px; border: 1.5px solid var(--gold); }
   .hero-badge .crest .c1 { top: -11px; left: -11px; border-right: none; border-bottom: none; }
   .hero-badge .crest .c2 { top: -11px; right: -11px; border-left: none; border-bottom: none; }
   .hero-badge .crest .c3 { bottom: -11px; left: -11px; border-right: none; border-top: none; }
   .hero-badge .crest .c4 { bottom: -11px; right: -11px; border-left: none; border-top: none; }
   .hero-badge img { width: 100px; height: 100px; border-radius: 50%; object-fit: contain; position: relative;
-    filter: drop-shadow(0 4px 14px rgba(74,64,50,.18)); }
+    filter: drop-shadow(0 4px 14px rgba(74,64,50,.2)); }
   .hero-nav { position: relative; display: flex; justify-content: space-between; align-items: center; margin: 18px 40px 0; }
   .hero-logo { font-family: var(--serif); font-size: 15px; letter-spacing: 3px; color: var(--text); font-weight: 700; }
   .hero-ver { font-size: 10px; letter-spacing: 3px; color: var(--muted); }
   .hero-center { position: relative; text-align: center; padding: 24px 24px 0; }
   .hero-kicker { font-family: var(--serif); font-size: 13px; letter-spacing: 8px; color: var(--red); }
-  .hero h1 { font-family: "LXGW WenKai", "KaiTi", "STKaiti", "楷体", var(--serif); font-size: 52px; font-weight: 700; letter-spacing: 12px;
-    color: #262019; margin-top: 14px; text-indent: 12px; text-shadow: 0 1px 0 rgba(255,255,255,.6); }
+  /* v21: 标题 52→58px, 更大气 */
+  .hero h1 { font-family: "LXGW WenKai", "KaiTi", "STKaiti", "楷体", var(--serif); font-size: 58px; font-weight: 700; letter-spacing: 14px;
+    color: #201a12; margin-top: 14px; text-indent: 14px; text-shadow: 0 1px 0 rgba(255,255,255,.6); }
   .hero .uibe-en { margin-top: 8px; font-family: Georgia, serif; font-size: 12px; letter-spacing: 7px;
-    color: #8f8066; text-transform: uppercase; }
+    color: var(--gold-deep); text-transform: uppercase; }
+  /* v21: 金线渐变分隔 */
   .hero .gline { display: flex; align-items: center; gap: 10px; justify-content: center; margin-top: 18px; }
-  .hero .gline::before, .hero .gline::after { content: ""; width: 48px; height: 1px; background: #c9a86a; }
-  .hero .gline .dia { width: 6px; height: 6px; background: #c9a86a; transform: rotate(45deg); }
-  .hero .hero-sub { margin-top: 15px; font-size: 13px; letter-spacing: 5px; color: #6d6150; }
+  .hero .gline::before { content: ""; width: 52px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  .hero .gline::after { content: ""; width: 52px; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
+  .hero .gline .dia { width: 7px; height: 7px; background: var(--gold); transform: rotate(45deg); box-shadow: 0 0 6px rgba(194,161,94,.8); }
+  .hero .hero-sub { margin-top: 15px; font-size: 13px; letter-spacing: 5px; color: #5c5142; }
   .hero .hero-sub b { color: var(--red); font-weight: 400; }
   .hero .hero-motto { margin-top: 15px; font-family: "LXGW WenKai", var(--serif); font-size: 14px; letter-spacing: 10px;
-    color: #4a4032; white-space: nowrap; }
-  .hero .quote { margin-top: 10px; font-family: "LXGW WenKai", var(--serif); font-size: 11px; letter-spacing: 5px; color: var(--muted); }
+    color: #3d3428; white-space: nowrap; }
+  /* v21: 卷首语(替代原引句) */
+  .hero .to-new { margin-top: 10px; font-family: "LXGW WenKai", var(--serif); font-size: 11px; letter-spacing: 4px; color: var(--gold-deep); }
   .hero .hero-stats { display: flex; justify-content: center; margin-top: 17px; }
-  .hero .hstat { text-align: center; padding: 0 15px; }
-  .hero .hstat + .hstat { border-left: 1px solid rgba(201,168,106,.4); }
-  .hero .hstat b { display: block; font-family: Georgia, var(--serif), serif; font-size: 20px; font-weight: 700; color: #8a6a2f; }
+  .hero .hstat { text-align: center; padding: 0 16px; }
+  .hero .hstat + .hstat { border-left: 1px solid var(--gold-line); }
+  /* v21: 统计数字鎏金渐变 */
+  .hero .hstat b { display: block; font-family: Georgia, var(--serif), serif; font-size: 24px; font-weight: 700;
+    background: linear-gradient(180deg, #d9b56a, var(--gold-deep));
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
   .hero .hstat span { font-size: 10px; letter-spacing: 1px; color: var(--muted); }
   .hero-cta { display: flex; gap: 12px; justify-content: center; margin-top: 22px; }
-  .hero-btn { font-size: 13px; letter-spacing: 2px; padding: 11px 30px; text-decoration: none; border-radius: 2px; font-weight: 600; }
-  .hero-btn.primary { background: var(--red); color: #fdf6ea; box-shadow: 0 6px 20px rgba(200,16,46,.28); }
-  .hero-btn.ghost { border: 1px solid #c9a86a; color: #8a6a2f; background: rgba(255,253,249,.5); }
-  .hero .countdown { margin-top: 17px; font-size: 11px; letter-spacing: 4px; color: var(--muted); }
-  /* 底部山景画卷 */
-  .hero .scene { position: relative; margin-top: 14px; height: 84px; pointer-events: none; }
-  .hero .scene .sun { position: absolute; left: 50%; top: 2px; transform: translateX(-50%);
-    width: 54px; height: 54px; border-radius: 50%;
-    background: radial-gradient(circle, #f6e7bd 0%, #e8cf8e 55%, rgba(232,207,142,.08) 78%);
-    opacity: .6; }
+  .hero-btn { font-size: 13px; letter-spacing: 2px; padding: 12px 30px; text-decoration: none; border-radius: 4px; font-weight: 600;
+    position: relative; overflow: hidden; }
+  /* v21: 朱砂渐变 + 微光扫过 */
+  .hero-btn.primary {
+    background: linear-gradient(180deg, #b62b38, var(--red) 55%, var(--red-dark));
+    color: #fdf3e6;
+    box-shadow: 0 8px 22px rgba(169,32,46,.32), inset 0 1px 0 rgba(255,255,255,.22);
+  }
+  .hero-btn.primary::after {
+    content: ""; position: absolute; top: 0; left: -60%; width: 40%; height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.32), transparent);
+    transform: skewX(-20deg); animation: sheen 3.4s 1.8s infinite;
+  }
+  @keyframes sheen { 0%, 55% { left: -60%; } 100% { left: 135%; } }
+  .hero-btn.ghost { border: 1px solid var(--gold); color: var(--gold-deep); background: rgba(255,252,244,.55); }
+  /* v21: 倒计时胶囊 */
+  .hero .countdown {
+    margin: 18px auto 0; width: fit-content; padding: 8px 22px 9px;
+    border: 1px solid var(--gold-line); border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255,252,244,.9), rgba(244,236,216,.9));
+    font-size: 11px; letter-spacing: 3px; color: #5c5142;
+    box-shadow: 0 4px 14px rgba(74,50,20,.08), inset 0 1px 0 #fff;
+  }
+  .hero .countdown b { font-family: Georgia, serif; font-size: 17px; color: var(--red); margin: 0 3px; }
+  /* 底部山景画卷 (v21: 加高 + 云雾流动) */
+  .hero .scene { position: relative; margin-top: 16px; height: 96px; pointer-events: none; }
+  .hero .scene .sun { position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+    width: 58px; height: 58px; border-radius: 50%;
+    background: radial-gradient(circle, #f7e9c0 0%, #e8cf8e 55%, rgba(232,207,142,.08) 78%);
+    opacity: .65; }
   .hero .scene svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .hero-foot { position: relative; text-align: center; margin-top: 12px;
-    font-family: var(--serif); font-size: 10px; letter-spacing: 6px; color: var(--muted); }
+  .hero .scene .mist { position: absolute; left: -30%; right: -30%; top: 38px; height: 20px; pointer-events: none;
+    background: radial-gradient(50% 100% at 50% 50%, rgba(246,240,226,.85), rgba(246,240,226,0));
+    animation: drift 9s ease-in-out infinite alternate; }
+  .hero .scene .mist.m2 { top: 62px; height: 14px; opacity: .65; animation-delay: -4.5s; }
+  @keyframes drift { from { transform: translateX(-4%); opacity: .4; } to { transform: translateX(4%); opacity: .85; } }
+  /* v21: 页脚落款 */
+  .hero-foot { position: relative; text-align: center; margin-top: 14px;
+    font-family: "LXGW WenKai", var(--serif); font-size: 10px; letter-spacing: 6px; color: var(--gold-deep); }
+  /* v21: 首屏元素依次淡入 */
+  .rise { animation: rise .7s ease backwards; }
+  .r1 { animation-delay: .1s; } .r2 { animation-delay: .3s; } .r3 { animation-delay: .5s; }
+  .r4 { animation-delay: .7s; } .r5 { animation-delay: .9s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
   /* ===== 通用容器 ===== */
   .page { padding: 16px 14px; animation: fadeIn .25s ease; }
@@ -181,38 +260,54 @@
   /* ===== 首页入口卡片 ===== */
   .entry-card {
     width: 100%; text-align: left; color: inherit; font-size: inherit;
-    background: var(--card);
+    background: linear-gradient(180deg, var(--card), #f6efdd);
     border-radius: var(--radius);
     padding: 16px;
     margin-bottom: 12px;
     display: flex;
     align-items: center;
     gap: 14px;
-    box-shadow: 0 2px 10px rgba(90,60,40,.06);
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset, 0 8px 20px rgba(74,50,20,.07);
     cursor: pointer;
-    transition: transform .12s, box-shadow .12s;
-    border: 1px solid #e8dfcd;
+    transition: transform .15s, box-shadow .15s;
+    border: 1px solid rgba(194,161,94,.3);
+    position: relative;
+    overflow: hidden;
+    animation: rise .5s ease backwards;
   }
+  /* v21: 卡片顶部金线 + 列表依次浮现 */
+  .entry-card::before { content: ""; position: absolute; top: 0; left: 16px; right: 16px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: .8; }
+  .entry-card:nth-child(2) { animation-delay: .05s; }
+  .entry-card:nth-child(3) { animation-delay: .1s; }
+  .entry-card:nth-child(4) { animation-delay: .15s; }
+  .entry-card:nth-child(5) { animation-delay: .2s; }
+  .entry-card:nth-child(6) { animation-delay: .25s; }
+  .entry-card:nth-child(7) { animation-delay: .3s; }
+  .entry-card:nth-child(8) { animation-delay: .35s; }
+  .entry-card:nth-child(9) { animation-delay: .4s; }
   .entry-card:active { transform: scale(.97); }
-  .entry-card:hover { border-color: var(--red); box-shadow: 0 4px 16px rgba(200,16,46,.12); }
+  @media (hover: hover) {
+    .entry-card:hover { border-color: var(--gold); box-shadow: 0 10px 24px rgba(74,50,20,.12); transform: translateY(-2px); }
+  }
+  /* v21: 图标鎏金底 */
   .entry-ico {
-    width: 48px; height: 48px; border-radius: 14px;
+    width: 50px; height: 50px; border-radius: 14px;
     display: flex; align-items: center; justify-content: center;
     font-size: 24px; flex-shrink: 0;
-    background: var(--red-light);
+    background: radial-gradient(circle at 30% 25%, #fff7e0, #f0dfb0);
+    border: 1px solid rgba(194,161,94,.4);
+    box-shadow: 0 3px 8px rgba(143,107,41,.15), inset 0 1px 0 #fff;
   }
-  .entry-card:nth-child(2) .entry-ico { background: #fdf3e3; }
-  .entry-card:nth-child(3) .entry-ico { background: #eaf3ec; }
-  .entry-card:nth-child(4) .entry-ico { background: #eef0f8; }
   .entry-name { font-size: 15px; font-weight: 700; }
   .entry-desc { font-size: 12px; color: var(--muted); margin-top: 3px; }
-  .entry-arrow { margin-left: auto; color: #d8ccc0; font-size: 18px; }
+  .entry-arrow { margin-left: auto; color: var(--gold); font-size: 20px; }
 
   /* ===== 探索页顶栏 ===== */
   .home-head {
     display: flex; align-items: center; gap: 10px;
     padding: 14px 18px 12px;
-    border-bottom: 1px solid #e8dfcd;
+    border-bottom: 1px solid rgba(194,161,94,.28);
     background: rgba(255,253,249,.7);
   }
   .home-head .hh-logo { width: 34px; height: 34px; border-radius: 50%; object-fit: contain; }
@@ -266,7 +361,7 @@
   }
   .search-box input {
     flex: 1; border: 1.5px solid #e4d9c4; border-radius: 10px;
-    padding: 9px 14px; font-size: 13px; outline: none; background: #fffdf9;
+    padding: 9px 14px; font-size: 13px; outline: none; background: var(--card);
   }
   .search-box input:focus { border-color: var(--red); }
   .search-box button {
@@ -279,7 +374,7 @@
   .chips::-webkit-scrollbar { display: none; }
   .chip {
     flex-shrink: 0; font-size: 13px; padding: 6px 14px;
-    border-radius: 10px; background: #fffdf9; color: var(--muted);
+    border-radius: 10px; background: var(--card); color: var(--muted);
     cursor: pointer; border: 1.5px solid #e4d9c4;
   }
   .chip.on { background: var(--red); color: #fff; border-color: var(--red); }
@@ -374,7 +469,7 @@
     width: 100%; max-width: 480px;
     background: rgba(253,249,244,.96);
     backdrop-filter: blur(10px);
-    border-top: 1px solid #e8dfcd;
+    border-top: 1px solid rgba(194,161,94,.28);
     display: flex; padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
     z-index: 100;
   }
@@ -525,6 +620,34 @@
   }
   #toast.show { opacity: 1; transform: translate(-50%, 0); }
 
+  /* ===== v21: 通用卡片质感(鎏金描边 + 内高光 + 顶部金线) ===== */
+  .check-group, .progress-wrap, .guide-card, .map-card, .contact-card, .wechat-card, .site-card, .ai-box {
+    border: 1px solid rgba(194,161,94,.28);
+    box-shadow: 0 1px 0 rgba(255,255,255,.75) inset, 0 8px 20px rgba(74,50,20,.06);
+    position: relative;
+  }
+  .check-group::before, .progress-wrap::before, .guide-card::before, .map-card::before,
+  .contact-card::before, .wechat-card::before, .site-card::before {
+    content: ""; position: absolute; top: 0; left: 14px; right: 14px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: .75;
+    pointer-events: none;
+  }
+  /* v21: 攻略长文用宋体(书卷气), 系统栈零成本 */
+  .gb-inner { font-family: var(--serif-body); }
+  /* v21: AI 气泡质感 */
+  .msg.ai { background: linear-gradient(180deg, #fbf4e8, #f4eddd); border: 1px solid rgba(194,161,94,.3); }
+  .msg.me { background: linear-gradient(180deg, #b62b38, var(--red-dark)); }
+  .msg.thinking { animation: thinkPulse 1.2s ease-in-out infinite; }
+  @keyframes thinkPulse { 50% { opacity: .55; } }
+  /* v21: 进度条金红渐变 + 打勾弹跳 */
+  .progress-bar i { background: linear-gradient(90deg, var(--red), #d9a44a); }
+  .check-item.done .check-box { animation: checkPop .28s ease; }
+  @keyframes checkPop { 0% { transform: scale(.55); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
+  /* v21: tabbar 选中金线 */
+  .tab { position: relative; }
+  .tab.on::after { content: ""; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 18px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-deep)); }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
@@ -558,14 +681,14 @@
   </div>
 </noscript>
 
-<script src="data-guides.js?v=20"></script>
-<script src="data-faq.js?v=20"></script>
-<script src="data-contacts.js?v=20"></script>
-<script src="data-wechat.js?v=20"></script>
-<script src="data-sites.js?v=20"></script>
+<script src="data-guides.js?v=21"></script>
+<script src="data-faq.js?v=21"></script>
+<script src="data-contacts.js?v=21"></script>
+<script src="data-wechat.js?v=21"></script>
+<script src="data-sites.js?v=21"></script>
 <script>
 // ================= 版本 =================
-const APP_VERSION = 'v20'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
+const APP_VERSION = 'v21'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
 
 // ================= 状态 =================
 const store = {
@@ -616,10 +739,22 @@ function daysUntil(iso) {
 }
 function countdownText() {
   const d = daysUntil('2026-09-03');
-  if (d > 0) return '⏳ 距报到还有 ' + d + ' 天';
+  if (d > 0) return '⏳ 距报到还有 <b>' + d + '</b> 天';
   if (d === 0) return '🎉 今天就是报到日！';
   if (d > -4) return '🏠 报到进行中，加油';
   return '🎓 大学生活已开启';
+}
+// v21: 统计数字滚动动画(尊重减少动态偏好; 无 matchMedia 环境直接显示终值)
+function animateCount(el, target) {
+  if (!el) return;
+  const reduced = !window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || !target) { el.textContent = target; return; }
+  const dur = 700, t0 = performance.now();
+  (function tick(t) {
+    const p = Math.min(1, (t - t0) / dur);
+    el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+    if (p < 1) requestAnimationFrame(tick);
+  })(t0);
 }
 // 复制 + Toast 提示
 function copyText(text) {
@@ -669,7 +804,7 @@ function renderWelcome() {
       <div class="foil" style="width:5px;height:5px;top:44%;left:18%;opacity:.5"></div>
       <div class="foil" style="width:7px;height:7px;bottom:36%;left:26%;opacity:.5"></div>
       <div class="foil" style="width:9px;height:9px;bottom:32%;right:20%;opacity:.6"></div>
-      <div class="hero-badge">
+      <div class="hero-badge rise r1">
         <div class="crest"><span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
           <img src="assets/uibe-logo.png" alt="对外经济贸易大学校徽" fetchpriority="high"></div>
       </div>
@@ -678,24 +813,27 @@ function renderWelcome() {
         <span class="hero-ver">丙午 · 2026 级</span>
       </div>
       <div class="hero-center">
-        <div class="hero-kicker">对外经济贸易大学</div>
-        <h1>新生指南</h1>
-        <div class="uibe-en">UIBE GUIDE 2026</div>
-        <div class="gline"><span class="dia"></span></div>
-        <div class="hero-sub">报到 <b>·</b> 军训 <b>·</b> 选课 <b>·</b> 生活 <b>·</b> 防骗</div>
-        <div class="hero-motto">博学 诚信 求索 笃行</div>
-        <div class="quote">惠风和畅 · 静候君来</div>
-        <div class="hero-stats">
-          <div class="hstat"><b>${FAQ.length}</b><span>常见问答</span></div>
-          <div class="hstat"><b>${GUIDES.length}</b><span>篇攻略</span></div>
+        <div class="hero-kicker rise r2">对外经济贸易大学</div>
+        <h1 class="rise r2">新生指南</h1>
+        <div class="uibe-en rise r2">UIBE GUIDE 2026</div>
+        <div class="gline rise r3"><span class="dia"></span></div>
+        <div class="hero-sub rise r3">报到 <b>·</b> 军训 <b>·</b> 选课 <b>·</b> 生活 <b>·</b> 防骗</div>
+        <div class="hero-motto rise r4">博学 诚信 求索 笃行</div>
+        <div class="to-new rise r4">— 致 2026 级新生 · 惠风和畅，静候君来 —</div>
+        <div class="hero-stats rise r4">
+          <div class="hstat"><b data-count="${FAQ.length}">0</b><span>常见问答</span></div>
+          <div class="hstat"><b data-count="${GUIDES.length}">0</b><span>篇攻略</span></div>
+          <div class="hstat"><b data-count="${WECHAT.length}">0</b><span>公众号</span></div>
         </div>
-        <div class="hero-cta">
+        <div class="hero-cta rise r5">
           <a class="hero-btn primary" href="#/home">开始使用</a>
           <a class="hero-btn ghost" href="#/ai">AI 百事通</a>
         </div>
-        <div class="countdown">${countdownText()}</div>
-        <div class="scene">
+        <div class="countdown rise r5">${countdownText()}</div>
+        <div class="scene rise r5">
           <div class="sun"></div>
+          <div class="mist"></div>
+          <div class="mist m2"></div>
           <svg viewBox="0 0 1440 84" preserveAspectRatio="none" aria-hidden="true">
             <path d="M0,50 L150,26 L300,46 L470,18 L640,44 L810,22 L980,46 L1160,28 L1320,46 L1440,34 L1440,84 L0,84 Z" fill="none" stroke="#c9a86a" stroke-width="1.4" opacity=".45"/>
             <path d="M0,64 L120,42 L260,58 L420,36 L600,60 L780,40 L960,62 L1140,44 L1320,60 L1440,52 L1440,84 L0,84 Z" fill="#c9a86a" opacity=".3"/>
@@ -713,9 +851,11 @@ function renderWelcome() {
             <circle cx="700" cy="66" r="2" fill="#e8cf8e"/>
           </svg>
         </div>
-        <div class="hero-foot">一页读懂你的开学季</div>
+        <div class="hero-foot">对外经济贸易大学 · 丙午年 2026</div>
       </div>
     </div>`;
+  // v21: 统计数字滚动(尊重减少动态偏好)
+  document.querySelectorAll('.hstat b[data-count]').forEach(el => animateCount(el, parseInt(el.dataset.count, 10) || 0));
 }
 
 // 探索页(功能入口列表, 底部 tab「首页」指向这里)
