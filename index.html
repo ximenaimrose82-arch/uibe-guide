@@ -749,15 +749,17 @@ function countdownText() {
   if (d > -4) return '🏠 报到进行中，加油';
   return '🎓 大学生活已开启';
 }
-// v21: 统计数字滚动动画(尊重减少动态偏好; 无 matchMedia 环境直接显示终值)
-function animateCount(el, target) {
-  if (!el) return;
+// v21: 统计数字滚动(单 rAF 循环批量更新, 减少主线程布局; 尊重减少动态偏好)
+function animateStats() {
+  const els = [...document.querySelectorAll('.hstat b[data-count]')];
+  if (!els.length) return;
   const reduced = !window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced || !target) { el.textContent = target; return; }
-  const dur = 700, t0 = performance.now();
+  if (reduced) { els.forEach(e => { e.textContent = e.dataset.count; }); return; }
+  const dur = 600, t0 = performance.now();
   (function tick(t) {
     const p = Math.min(1, (t - t0) / dur);
-    el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+    const ease = 1 - Math.pow(1 - p, 3);
+    for (const el of els) el.textContent = Math.round(parseInt(el.dataset.count, 10) * ease);
     if (p < 1) requestAnimationFrame(tick);
   })(t0);
 }
@@ -859,7 +861,7 @@ function renderWelcome() {
       </div>
     </div>`;
   // v21: 统计数字滚动(尊重减少动态偏好)
-  document.querySelectorAll('.hstat b[data-count]').forEach(el => animateCount(el, parseInt(el.dataset.count, 10) || 0));
+  animateStats();
 }
 
 // 探索页(功能入口列表, 底部 tab「首页」指向这里)
