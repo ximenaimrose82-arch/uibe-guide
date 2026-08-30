@@ -3,16 +3,16 @@
 // 策略: 导航请求网络优先(保证更新及时), 静态资源缓存优先
 // 改版时: 更新 CACHE 名(如 v10 → v11), 旧缓存自动清理
 // ============================================================
-const CACHE = 'uibe-guide-v16';
+const CACHE = 'uibe-guide-v17';
 
 // 安装时预缓存应用外壳(数据文件带版本号, 改版即失效)
 const ASSETS = [
   './',
   './index.html',
-  './data-guides.js?v=16',
-  './data-faq.js?v=16',
-  './data-contacts.js?v=16',
-  './data-wechat.js?v=16',
+  './data-guides.js?v=17',
+  './data-faq.js?v=17',
+  './data-contacts.js?v=17',
+  './data-wechat.js?v=17',
   './manifest.webmanifest',
   './assets/icon-192.png',
   './assets/icon-512.png',
