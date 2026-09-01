@@ -19,12 +19,13 @@ blocks.forEach((b, i) => {
 
 // 关键标记检查
 const checks = {
-  "APP_VERSION v23": html.includes("const APP_VERSION = 'v23'"),
-  "data-guides ?v=23": html.includes('data-guides.js?v=23'),
-  "无残留 ?v=22": !html.includes('?v=22'),
-  "办公电话查询指南": fs.readFileSync('data-guides.js','utf8').includes('办公电话查询指南'),
-  "xxgk 信息公开网": fs.readFileSync('data-guides.js','utf8').includes('xxgk.uibe.edu.cn'),
-  "sw CACHE v23": fs.readFileSync('sw.js','utf8').includes("uibe-guide-v23"),
+  "APP_VERSION v24": html.includes("const APP_VERSION = 'v24'"),
+  "data-guides ?v=24": html.includes('data-guides.js?v=24'),
+  "无残留 ?v=23": !html.includes('?v=23'),
+  "食堂开放安排": fs.readFileSync('data-guides.js','utf8').includes('开学第一周食堂开放安排'),
+  "近邻宝快递": fs.readFileSync('data-guides.js','utf8').includes('快递取件注意事项（近邻宝）'),
+  "民族食堂": fs.readFileSync('data-guides.js','utf8').includes('民族食堂'),
+  "sw CACHE v24": fs.readFileSync('sw.js','utf8').includes("uibe-guide-v24"),
 };
 Object.entries(checks).forEach(([k, v]) => console.log(v ? '✓' : '✗ FAIL', k));
 if (Object.values(checks).some(v => !v)) fail++;
