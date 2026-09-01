@@ -19,13 +19,12 @@ blocks.forEach((b, i) => {
 
 // 关键标记检查
 const checks = {
-  "APP_VERSION v22": html.includes("const APP_VERSION = 'v22'"),
-  "data-contacts ?v=22": html.includes('data-contacts.js?v=22'),
-  "无残留 ?v=21": !html.includes('?v=21'),
-  "COMMON_CONTACTS 引用": html.includes('COMMON_CONTACTS'),
-  "commonCardHTML 定义": html.includes('function commonCardHTML'),
-  "filterCommon 定义": html.includes('function filterCommon'),
-  "sw CACHE v22": fs.readFileSync('sw.js','utf8').includes("uibe-guide-v22"),
+  "APP_VERSION v23": html.includes("const APP_VERSION = 'v23'"),
+  "data-guides ?v=23": html.includes('data-guides.js?v=23'),
+  "无残留 ?v=22": !html.includes('?v=22'),
+  "办公电话查询指南": fs.readFileSync('data-guides.js','utf8').includes('办公电话查询指南'),
+  "xxgk 信息公开网": fs.readFileSync('data-guides.js','utf8').includes('xxgk.uibe.edu.cn'),
+  "sw CACHE v23": fs.readFileSync('sw.js','utf8').includes("uibe-guide-v23"),
 };
 Object.entries(checks).forEach(([k, v]) => console.log(v ? '✓' : '✗ FAIL', k));
 if (Object.values(checks).some(v => !v)) fail++;
