@@ -3,7 +3,7 @@
 // 策略: 导航请求网络优先(保证更新及时), 静态资源缓存优先
 // 改版时: 更新 CACHE 名(如 v19 → v20), 旧缓存自动清理
 // ============================================================
-const CACHE = 'uibe-guide-v21';
+const CACHE = 'uibe-guide-v22';
 
 // 安装时预缓存应用外壳(数据文件带版本号, 改版即失效)
 // 注意: 校园地图(329KB)不做预缓存, 用户首次打开 #/map 时由 fetch 处理器
@@ -11,11 +11,11 @@ const CACHE = 'uibe-guide-v21';
 const ASSETS = [
   './',
   './index.html',
-  './data-guides.js?v=21',
-  './data-faq.js?v=21',
-  './data-contacts.js?v=21',
-  './data-wechat.js?v=21',
-  './data-sites.js?v=21',
+  './data-guides.js?v=22',
+  './data-faq.js?v=22',
+  './data-contacts.js?v=22',
+  './data-wechat.js?v=22',
+  './data-sites.js?v=22',
   './manifest.webmanifest',
   './assets/icon-192.png',
   './assets/icon-512.png',

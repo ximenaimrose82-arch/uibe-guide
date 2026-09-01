@@ -573,6 +573,10 @@
   .contact-card .c-src { margin-top: 8px; font-size: 11px; color: var(--muted); }
   .contact-card .c-src a { color: var(--muted); text-decoration: underline; }
   .contact-card mark { background: #ffe9a8; border-radius: 3px; padding: 0 1px; }
+  .common-card { border: 1px solid rgba(194,161,94,.45); background: linear-gradient(180deg, rgba(194,161,94,.07), rgba(194,161,94,0) 55%), var(--card); }
+  .common-card h3 { color: var(--red); }
+  .section-label { display: flex; align-items: baseline; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text); margin: 14px 2px 8px; }
+  .section-label .sl-src { font-size: 11px; font-weight: 400; color: var(--muted); }
 
   /* ===== 公众号大全 ===== */
   .wechat-card {
@@ -686,14 +690,14 @@
   </div>
 </noscript>
 
-<script src="data-guides.js?v=21"></script>
-<script src="data-faq.js?v=21"></script>
-<script src="data-contacts.js?v=21"></script>
-<script src="data-wechat.js?v=21"></script>
-<script src="data-sites.js?v=21"></script>
+<script src="data-guides.js?v=22"></script>
+<script src="data-faq.js?v=22"></script>
+<script src="data-contacts.js?v=22"></script>
+<script src="data-wechat.js?v=22"></script>
+<script src="data-sites.js?v=22"></script>
 <script>
 // ================= 版本 =================
-const APP_VERSION = 'v21'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
+const APP_VERSION = 'v22'; // 页面版本号: 改版后 +1, 同时更新下方数据文件的 ?v= 和 sw.js 的缓存名
 
 // ================= 状态 =================
 const store = {
@@ -870,7 +874,7 @@ function renderHome() {
     { ico: "✅", name: "报到清单", desc: `${CHECKLIST.flatMap(g => g.items).length} 项逐条打勾，进度一目了然`, to: "#/check" },
     { ico: "📚", name: "攻略库", desc: `${GUIDES.length} 篇攻略，覆盖开学全场景`, to: "#/guides" },
     { ico: "🗺️", name: "校园地图", desc: "官方校园地图，放大查看，报到不迷路", to: "#/map" },
-    { ico: "📞", name: "院系联系", desc: `${CONTACTS.length} 个院系官方电话/邮箱，一键拨打`, to: "#/contacts" },
+    { ico: "📞", name: "常用联系", desc: `教务/信息处/辅导员 + ${CONTACTS.length} 个院系电话邮箱，一键拨打`, to: "#/contacts" },
     { ico: "📱", name: "公众号大全", desc: `${WECHAT.length} 个官方公众号，复制名称去微信搜`, to: "#/wechat" },
     { ico: "🌐", name: "网址导航", desc: `${SITES.flatMap(g => g.items).length} 个常用网站，i惠园/教务/缴费一站查`, to: "#/sites" },
     { ico: "🤖", name: "AI 百事通", desc: "AI 实时思考，贸大问题随问随答", to: "#/ai" },
@@ -1007,12 +1011,31 @@ function closeLightbox() {
   document.body.style.overflow = '';
 }
 
-// ================= 院系联系方式 =================
+// ================= 常用联系 + 院系联系方式 =================
 let contactSearch = '';
 function filterContacts(kw) {
   const k = (kw || '').trim();
   if (!k) return CONTACTS;
   return CONTACTS.filter(c => (c.name + ' ' + c.location + ' ' + c.phone + ' ' + c.email).includes(k));
+}
+function filterCommon(kw) {
+  const k = (kw || '').trim();
+  if (!k) return COMMON_CONTACTS;
+  return COMMON_CONTACTS.filter(c => (c.name + ' ' + (c.biz || '') + ' ' + (c.location || '') + ' ' + (c.phone || '') + ' ' + (c.email || '')).includes(k));
+}
+
+function commonCardHTML(c, kw) {
+  const hl = s => highlight(s, kw);
+  const rows = [];
+  if (c.phone) rows.push(`<div class="c-row"><span class="c-label">电话</span><span class="c-val"><a href="tel:${c.phone.replace(/\D/g, '')}">${hl(c.phone)}</a></span></div>`);
+  if (c.email) rows.push(`<div class="c-row"><span class="c-label">邮箱</span><span class="c-val"><a href="mailto:${esc(c.email)}">${hl(c.email)}</a></span></div>`);
+  if (c.location) rows.push(`<div class="c-row"><span class="c-label">地点</span><span class="c-val">${hl(c.location)}</span></div>`);
+  return `
+    <div class="contact-card common-card">
+      <h3>⭐ ${hl(c.name)}</h3>
+      <div class="c-rows">${rows.join('')}</div>
+      ${c.biz ? `<div class="c-src">💡 ${esc(c.biz)}</div>` : ''}
+    </div>`;
 }
 
 function contactCardHTML(c, kw) {
@@ -1044,18 +1067,24 @@ function contactCardHTML(c, kw) {
 function renderContacts(kw) {
   const searchKw = (kw !== undefined ? kw : contactSearch).trim();
   const list = filterContacts(searchKw);
+  const commonList = filterCommon(searchKw);
+  const searching = !!searchKw;
   $app.innerHTML = `
     <div class="page">
       <button class="back-btn" onclick="go('#/home')">← 返回</button>
-      <div class="page-title">📞 院系联系 <span class="sub">${CONTACTS.length} 个院系/部门</span></div>
+      <div class="page-title">📞 院系联系 <span class="sub">常用联系 ${COMMON_CONTACTS.length} · 院系 ${CONTACTS.length}</span></div>
       <div class="search-box">
-        <input id="cSearch" placeholder="🔍 搜学院，如：金融、统计、法学" value="${esc(searchKw)}" maxlength="30" onkeydown="if(event.key==='Enter'&&!event.isComposing)doContactSearch()">
+        <input id="cSearch" placeholder="🔍 搜学院或联系，如：教务、信息处、金融" value="${esc(searchKw)}" maxlength="30" onkeydown="if(event.key==='Enter'&&!event.isComposing)doContactSearch()">
         <button onclick="doContactSearch()">搜索</button>
       </div>
-      ${searchKw ? `<div class="result-tip">找到 ${list.length} 个相关院系</div>` : ''}
+      ${searching ? `<div class="result-tip">找到 ${commonList.length + list.length} 条相关联系</div>` : ''}
+      ${commonList.length ? `
+        <div class="section-label">⭐ 常用联系 <span class="sl-src">2026级辅导员提供</span></div>
+        ${commonList.map(c => commonCardHTML(c, searchKw)).join('')}` : ''}
+      ${list.length ? `<div class="section-label">院系官方联系</div>` : ''}
       ${list.map(c => contactCardHTML(c, searchKw)).join('')}
-      ${list.length === 0 ? '<div class="muted-tip">没有找到相关院系，换个关键词试试～</div>' : ''}
-      <div class="muted-tip">信息来源：各学院官网「联系我们/机构设置」页面（2026年8月核实）<br>查不到的电话/邮箱标注「待补充」；办公电话建议工作时间拨打</div>
+      ${list.length === 0 && commonList.length === 0 ? '<div class="muted-tip">没有找到相关联系，换个关键词试试～</div>' : ''}
+      <div class="muted-tip">常用联系来源：2026级外语学院辅导员提供（2026年9月）<br>院系信息来源：各学院官网「联系我们/机构设置」页面（2026年8月核实）<br>查不到的电话/邮箱标注「待补充」；办公电话建议工作时间拨打</div>
     </div>`;
 }
 
